@@ -1,12 +1,22 @@
 import * as express from 'express'
 import * as React from 'react'
 import { renderToNodeStream } from 'react-dom/server'
+import * as webpack from 'webpack'
+import * as webpackDevMiddleware from 'webpack-dev-middleware'
+import * as webpackHotMiddleware from 'webpack-hot-middleware'
 import { Html } from '../template/Html'
 import { Root } from '../containers/Root'
 
+const config = require('../../webpack.config.dev')()
 const server = express()
+const compiler = webpack(config)
 
-server.use(express.static('public'))
+server.use(webpackDevMiddleware(compiler, {
+  publicPath: config.output.publicPath,
+}))
+server.use(webpackHotMiddleware(compiler))
+
+server.use(express.static('dev'))
 
 const initialData = {
   test: 1,
@@ -17,7 +27,7 @@ server.get('/', (_, res) => {
   renderToNodeStream(
     <Html
       title='App'
-      publicPath='/'
+      publicPath={config.output.publicPath}
       initialData={JSON.stringify(initialData)}
     >
       <Root />
@@ -30,8 +40,6 @@ server.listen(PORT, (error: Error) => {
   if (error) {
     console.log(error)
   } else {
-    if (process.env.NODE_ENV !== 'production') {
-      console.log(`Listening on port ${PORT}!`)
-    }
+    console.log(`Listening on port ${PORT}!`)
   }
 })

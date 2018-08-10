@@ -1,10 +1,11 @@
 const path = require('path')
 const webpack = require('webpack')
-// const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 const { NODE_ENV = 'development', ASSET_PATH = '/' } = process.env
 
 module.exports = (env, argv) => {
+  console.log('env', env)
   const base = {
     mode: NODE_ENV === 'production' ? NODE_ENV : 'development',
     plugins: [
@@ -13,13 +14,11 @@ module.exports = (env, argv) => {
         'process.env.ASSET_PATH': JSON.stringify(ASSET_PATH),
       }),
       new webpack.HotModuleReplacementPlugin(),
-      // new HtmlWebpackPlugin(),
     ],
     entry: './src/server/index.tsx',
     output: {
       filename: 'server.js',
       path: path.resolve(__dirname, 'dist'),
-      publicPath: ASSET_PATH,
     },
     devtool: 'source-map',
     resolve: {
@@ -35,13 +34,21 @@ module.exports = (env, argv) => {
 
   if (env.platform === 'server') {
     base.target = 'node';
+    base.plugins.unshift(
+      new CleanWebpackPlugin(['dist'], { verbose: true })
+    )
   }
 
   if (env.platform === 'client') {
+    base.plugins.unshift(
+      new CleanWebpackPlugin(['public'], { verbose: true })
+    )
     base.entry = [
       './src/client.tsx',
     ];
     base.output.filename = 'client.js';
+    base.output.path = path.resolve(__dirname, 'public');
+    base.output.publicPath = ASSET_PATH;
     if (base.mode !== 'production') {
       base.entry.push('webpack-hot-middleware/client')
     }

@@ -3,5 +3,5 @@ import { hot } from 'react-hot-loader';
 import { Hello } from '../components/Hello';
 
 export const Root = hot(module)(function() {
-  return <Hello compiler='TypeScript' framework='React' />;
+  return <Hello name='World' />;
 })
