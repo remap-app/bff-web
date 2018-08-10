@@ -1,0 +1,37 @@
+{
+  "name": "web-client",
+  "version": "0.0.0",
+  "description": "ReMap client for Web",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "dev": "node dev-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/remap-app/web-client.git"
+  },
+  "author": "Shingo Sato",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/remap-app/web-client/issues"
+  },
+  "homepage": "https://github.com/remap-app/web-client#readme",
+  "dependencies": {
+    "@types/react": "^16.4.9",
+    "@types/react-dom": "^16.0.7",
+    "awesome-typescript-loader": "^5.2.0",
+    "express": "^4.16.3",
+    "html-webpack-plugin": "^3.2.0",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-hot-loader": "^4.3.4",
+    "source-map-loader": "^0.2.3",
+    "typescript": "^3.0.1",
+    "webpack": "^4.16.5",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-middleware": "^3.1.3",
+    "webpack-hot-middleware": "^2.22.3"
+  }
+}
