@@ -1,24 +1,27 @@
 {
-  "name": "web-client",
+  "name": "bff-web",
   "version": "0.0.0",
-  "description": "ReMap client for Web",
+  "description": "Backend for Frontend for ReMap Web",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
+    "build:server": "webpack --env.platform=server",
+    "build:client": "webpack --env.platform=client",
+    "build": "NODE_ENV=production npm run build:server && NODE_ENV=production npm run build:client",
     "dev": "node dev-server"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/remap-app/web-client.git"
+    "url": "git+https://github.com/remap-app/bff-web.git"
   },
   "author": "Shingo Sato",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/remap-app/web-client/issues"
+    "url": "https://github.com/remap-app/bff-web/issues"
   },
-  "homepage": "https://github.com/remap-app/web-client#readme",
+  "homepage": "https://github.com/remap-app/bff-web#readme",
   "dependencies": {
+    "@types/express": "^4.16.0",
     "@types/react": "^16.4.9",
     "@types/react-dom": "^16.0.7",
     "awesome-typescript-loader": "^5.2.0",

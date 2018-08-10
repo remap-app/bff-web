@@ -4,9 +4,9 @@ import * as ReactDOM from 'react-dom';
 import { Root } from './containers/Root';
 
 const main = () => {
-  ReactDOM.render(
+  ReactDOM.hydrate(
     <Root />,
-    document.body.appendChild(document.createElement('div'))
+    document.getElementById('app')
   )
 }
 
