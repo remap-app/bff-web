@@ -1,0 +1,8 @@
+import * as express from 'express'
+import { getRoot } from './getRoot'
+
+const router = express.Router()
+
+router.get('/', getRoot)
+
+export default router

@@ -3,16 +3,11 @@ import * as React from 'react'
 import { renderToNodeStream } from 'react-dom/server'
 import { Html } from '../template/Html'
 import { Root } from '../containers/Root'
+import { Restaurants } from '../services/restaurants'
 
-const server = express()
-
-server.use(express.static('public'))
-
-const initialData = {
-  restaurants: 1, // tmp
-}
-
-server.get('/', (_, res) => {
+export const getRoot = async (req: express.Request, res: express.Response) => {
+  const restaurants = await Restaurants.getList(req.query)
+  const initialData = { restaurants }
   res.write('<!doctype html>')
   renderToNodeStream(
     <Html
@@ -23,12 +18,4 @@ server.get('/', (_, res) => {
       <Root {...initialData} />
     </Html>
   ).pipe(res)
-})
-
-const { PORT = 3000 } = process.env
-server.listen(PORT, (error: Error) => {
-  if (error) {
-    // TODO: send bug report to some tird party service
-    console.log(error) // eslint-disable-line no-console
-  }
-})
+}

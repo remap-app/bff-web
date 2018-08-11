@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 import * as path from 'path'
 import * as webpack from 'webpack'
 import * as CleanWebpackPlugin from 'clean-webpack-plugin'
@@ -5,7 +7,7 @@ import baseConfig from './webpack.config.base'
 
 import { IWebpackConfiguration } from './webpack.config.base'
 
-const { NODE_ENV = 'development', ASSET_PATH = '/' } = process.env
+const { NODE_ENV = 'development', ASSET_PATH = '/', RESTAURANTS_ENDPOINT } = process.env
 
 export default (): Array<IWebpackConfiguration> => {
   return [
@@ -16,6 +18,7 @@ export default (): Array<IWebpackConfiguration> => {
         new CleanWebpackPlugin(['dist'], { verbose: true }),
         new webpack.DefinePlugin({
           'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
+          'process.env.RESTAURANTS_ENDPOINT': JSON.stringify(RESTAURANTS_ENDPOINT),
         }),
       ],
       target: 'node',
@@ -36,6 +39,7 @@ export default (): Array<IWebpackConfiguration> => {
         new webpack.DefinePlugin({
           'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
           'process.env.ASSET_PATH': JSON.stringify(ASSET_PATH),
+          'process.env.RESTAURANTS_ENDPOINT': JSON.stringify(RESTAURANTS_ENDPOINT),
         }),
       ],
       entry: [
