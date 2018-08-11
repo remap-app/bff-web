@@ -1,6 +1,6 @@
 import * as path from 'path'
 import * as webpack from 'webpack'
-import CleanWebpackPlugin from 'clean-webpack-plugin'
+import * as CleanWebpackPlugin from 'clean-webpack-plugin'
 import baseConfig from './webpack.config.base'
 
 const { NODE_ENV = 'development', ASSET_PATH = '/' } = process.env
