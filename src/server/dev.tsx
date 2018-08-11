@@ -38,8 +38,8 @@ server.get('/', (_, res) => {
 const { PORT = 3000 } = process.env
 server.listen(PORT, (error: Error) => {
   if (error) {
-    console.log(error)
+    console.log(error) // eslint-disable-line no-console
   } else {
-    console.log(`Listening on port ${PORT}!`)
+    console.log(`Listening on port ${PORT}!`) // eslint-disable-line no-console
   }
 })

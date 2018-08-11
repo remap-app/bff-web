@@ -1,7 +1,7 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import * as React from 'react'
+import * as ReactDOM from 'react-dom'
 
-import { Root } from './containers/Root';
+import { Root } from './containers/Root'
 
 const main = () => {
   ReactDOM.hydrate(

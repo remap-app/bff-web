@@ -28,10 +28,7 @@ server.get('/', (_, res) => {
 const { PORT = 3000 } = process.env
 server.listen(PORT, (error: Error) => {
   if (error) {
-    console.log(error)
-  } else {
-    if (process.env.NODE_ENV !== 'production') {
-      console.log(`Listening on port ${PORT}!`)
-    }
+    // TODO: send bug report to some tird party service
+    console.log(error) // eslint-disable-line no-console
   }
 })
