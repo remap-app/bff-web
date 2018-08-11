@@ -3,7 +3,19 @@ import * as webpack from 'webpack'
 import * as CleanWebpackPlugin from 'clean-webpack-plugin'
 import baseConfig from './webpack.config.base'
 
-const config: webpack.Configuration = {
+import { IWebpackConfiguration } from './webpack.config.base'
+
+interface IWebpackConfigOutput {
+  filename: string;
+  path: string;
+  publicPath: string;
+}
+
+export interface IWebpackConfigurationDev extends IWebpackConfiguration {
+  output: IWebpackConfigOutput;
+}
+
+const config: IWebpackConfigurationDev = {
   ...baseConfig,
   mode: 'development',
   plugins: [
@@ -15,6 +27,7 @@ const config: webpack.Configuration = {
     new webpack.HotModuleReplacementPlugin(),
   ],
   entry: [
+    ...baseConfig.entry,
     './src/client.tsx',
     'webpack-hot-middleware/client',
   ],
