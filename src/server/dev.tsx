@@ -6,13 +6,13 @@ import * as webpackDevMiddleware from 'webpack-dev-middleware'
 import * as webpackHotMiddleware from 'webpack-hot-middleware'
 import { Html } from '../template/Html'
 import { Root } from '../containers/Root'
+import webpackConfig from '../../webpack.config.dev'
 
-const config = require('../../webpack.config.dev')()
 const server = express()
-const compiler = webpack(config)
+const compiler = webpack(webpackConfig)
 
 server.use(webpackDevMiddleware(compiler, {
-  publicPath: config.output.publicPath,
+  publicPath: webpackConfig.output.publicPath,
 }))
 server.use(webpackHotMiddleware(compiler))
 
@@ -27,7 +27,7 @@ server.get('/', (_, res) => {
   renderToNodeStream(
     <Html
       title='App'
-      publicPath={config.output.publicPath}
+      publicPath={webpackConfig.output.publicPath}
       initialData={JSON.stringify(initialData)}
     >
       <Root />

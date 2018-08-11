@@ -1,13 +1,12 @@
 {
   "name": "bff-web",
   "version": "0.0.0",
+  "private": true,
   "description": "Backend for Frontend for ReMap Web",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:server": "webpack --env.platform=server",
-    "build:client": "webpack --env.platform=client",
-    "build": "NODE_ENV=production npm run build:server && NODE_ENV=production npm run build:client",
+    "build": "TS_NODE_PROJECT=tsconfig.for-webpack-config.json webpack --config webpack.config.prod.ts",
     "dev": "ts-node src/server/dev"
   },
   "repository": {
@@ -36,6 +35,7 @@
     "react-hot-loader": "^4.3.4",
     "source-map-loader": "^0.2.3",
     "ts-node": "^7.0.0",
+    "tsconfig-paths": "^3.5.0",
     "typescript": "^3.0.1",
     "webpack": "^4.16.5",
     "webpack-cli": "^3.1.0",
