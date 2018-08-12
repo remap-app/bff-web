@@ -31,7 +31,7 @@ const config: IWebpackConfigurationDev = {
   ],
   entry: [
     ...baseConfig.entry,
-    './src/client.tsx',
+    './src/client/index.tsx',
     'webpack-hot-middleware/client',
   ],
   output: {

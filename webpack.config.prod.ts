@@ -44,7 +44,7 @@ export default (): Array<IWebpackConfiguration> => {
       ],
       entry: [
         ...baseConfig.entry,
-        './src/client.tsx',
+        './src/client/index.tsx',
       ],
       output: {
         filename: 'client.js',
