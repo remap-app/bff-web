@@ -1,6 +1,13 @@
 import * as React from 'react'
 
-export const Html = (props: any) => {
+export interface IProps {
+  title: string;
+  children: React.ReactNode;
+  publicPath: string;
+  initialData: any;
+}
+
+export const Html = (props: IProps) => {
   return (
     <html>
       <head>
