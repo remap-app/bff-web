@@ -6,6 +6,7 @@ export interface IProps {
   children: React.ReactNode;
   publicPath: string;
   initialData: any;
+  assets?: { js: Array<string>, css: Array<string> };
 }
 
 export const Html = (props: IProps) => {
@@ -15,11 +16,16 @@ export const Html = (props: IProps) => {
         <meta charSet='utf-8' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <title>{props.title}</title>
+        {props.assets && props.assets.css ? (
+          props.assets.css.map(asset => <link key={asset} rel='stylesheet' href={asset} />)
+        ) : null}
       </head>
       <body>
         <div id="app">{props.children}</div>
         <script id="initial-data" type="text/plain" data-json={props.initialData}></script>
-        <script src={`${props.publicPath.replace(/\/$/, '')}/client.js`}></script>
+        {props.assets && props.assets.js ? (
+          props.assets.js.map(asset => <script key={asset} src={asset}></script>)
+        ) : <script src={`${props.publicPath.replace(/\/$/, '')}/assets/client.js`}></script>}
       </body>
     </html>
   )

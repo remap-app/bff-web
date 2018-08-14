@@ -23,12 +23,29 @@ router.get('*', async (req: express.Request, res: express.Response) => {
   res.write('<!doctype html>')
 
   const context = {}
+
+  // dev assets
+  let assets = null
+  if (res.locals && res.locals.webpackStats) {
+    const { assetsByChunkName: { main } } = res.locals.webpackStats.toJson()
+    const normalized = Array.isArray(main) ? main : [main]
+    assets = normalized.reduce(
+      (ret, pathname) => {
+        const type = pathname.endsWith('.js') ? 'js' : pathname.endsWith('.css') ? 'css' : null
+        if (!type) return ret
+        return { ...ret, [type]: [...ret[type], pathname] }
+      },
+      { js: [], css: [] }
+    )
+  }
+
   renderToNodeStream(
     <Html
       lang='ja'
       title='App'
       publicPath='/'
       initialData={JSON.stringify(initialData)}
+      assets={assets}
     >
       <StaticRouter location={req.url} context={context}>
         <Routes />

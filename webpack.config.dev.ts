@@ -36,7 +36,7 @@ const config: IWebpackConfigurationDev = {
   ],
   output: {
     filename: 'client.js',
-    path: path.resolve(__dirname, 'dev'),
+    path: path.resolve(__dirname, 'dev', 'assets'),
     publicPath: '/',
   },
 }

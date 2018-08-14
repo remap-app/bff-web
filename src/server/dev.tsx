@@ -16,6 +16,7 @@ const { PORT = 3000 } = process.env
 const compiler = webpack(webpackConfig)
 server.use(webpackDevMiddleware(compiler, {
   publicPath: webpackConfig.output.publicPath,
+  serverSideRender: true,
 }))
 server.use(webpackHotMiddleware(compiler))
 

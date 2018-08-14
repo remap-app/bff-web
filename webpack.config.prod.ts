@@ -48,7 +48,7 @@ export default (): Array<IWebpackConfiguration> => {
       ],
       output: {
         filename: 'client.js',
-        path: path.resolve(__dirname, 'public'),
+        path: path.resolve(__dirname, 'public', 'assets'),
         publicPath: ASSET_PATH,
       },
     },
