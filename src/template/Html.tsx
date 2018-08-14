@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 export interface IProps {
+  lang: string;
   title: string;
   children: React.ReactNode;
   publicPath: string;
@@ -9,7 +10,7 @@ export interface IProps {
 
 export const Html = (props: IProps) => {
   return (
-    <html>
+    <html lang={props.lang}>
       <head>
         <meta charSet='utf-8' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
