@@ -5,7 +5,7 @@ import { Routes } from '../routes/Routes'
 
 const main = () => {
   ReactDOM.hydrate(
-    <BrowserRouter>{Routes}</BrowserRouter>,
+    <BrowserRouter><Routes /></BrowserRouter>,
     document.getElementById('app')
   )
 }

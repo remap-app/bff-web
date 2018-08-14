@@ -31,7 +31,7 @@ router.get('*', async (req: express.Request, res: express.Response) => {
       initialData={JSON.stringify(initialData)}
     >
       <StaticRouter location={req.url} context={context}>
-        {Routes}
+        <Routes />
       </StaticRouter>
     </Html>
   ).pipe(res)
