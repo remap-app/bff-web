@@ -1,13 +1,17 @@
 import * as querystring from 'querystring'
+import { Service } from '../Service'
 import { IQuery } from './types'
 
-export class Restaurants {
-  static async getList(query: IQuery): Promise<any> {
-    const res = await fetch(`${process.env.RESTAURANTS_ENDPOINT}?${querystring.stringify(query)}`)
-    if (res.ok) {
-      return await res.json()
-    }
-    const error = await res.json().catch(() => ({ error: 'Unknown error' }))
-    throw new Error(error.error)
+export class Restaurants extends Service {
+  private static get rootEndpoint() {
+    return process.env.RESTAURANTS_ENDPOINT
+  }
+
+  public static async getList(query: IQuery): Promise<any> {
+    return this.get(`${this.rootEndpoint}?${querystring.stringify(query)}`)
+  }
+
+  public static async getById(id: string): Promise<any> {
+    return this.get(`${this.rootEndpoint}/${id}`)
   }
 }
