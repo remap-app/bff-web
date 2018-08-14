@@ -1,4 +1,4 @@
-import 'isomorphic-fetch'
+import 'cross-fetch/polyfill'
 import * as express from 'express'
 import 'express-async-errors'
 import * as webpack from 'webpack'
@@ -9,20 +9,18 @@ import api from '../routes/api'
 import webpackConfig from '../../webpack.config.dev'
 
 const server = express()
-const compiler = webpack(webpackConfig)
 const { PORT = 3000 } = process.env
 
+// dev
+const compiler = webpack(webpackConfig)
 server.use(webpackDevMiddleware(compiler, {
   publicPath: webpackConfig.output.publicPath,
 }))
-
 server.use(webpackHotMiddleware(compiler))
 
 server.use(express.static('dev'))
-
 server.use('/api', api)
 server.use('*', routes)
-
 server.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
   next(err)
 })

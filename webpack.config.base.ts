@@ -11,9 +11,7 @@ const baseConfig: IWebpackConfiguration = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
   },
-  entry: [
-    'isomorphic-fetch',
-  ],
+  entry: [],
   module: {
     rules: [
       { test: /\.tsx?$/, loader: 'awesome-typescript-loader' },

@@ -1,3 +1,4 @@
+import 'cross-fetch/polyfill'
 import * as express from 'express'
 import 'express-async-errors'
 import routes from '../routes'

@@ -11,6 +11,7 @@ const { NODE_ENV = 'development', ASSET_PATH = '/', RESTAURANTS_ENDPOINT } = pro
 
 export default (): Array<IWebpackConfiguration> => {
   return [
+    // server
     {
       ...baseConfig,
       mode: 'production',
@@ -22,15 +23,14 @@ export default (): Array<IWebpackConfiguration> => {
         }),
       ],
       target: 'node',
-      entry: [
-        ...baseConfig.entry,
-        './src/server/index.tsx',
-      ],
+      entry: ['./src/server/index.tsx'],
       output: {
         filename: 'server.js',
         path: path.resolve(__dirname, 'dist'),
       },
     },
+
+    // client
     {
       ...baseConfig,
       mode: 'production',
@@ -43,7 +43,7 @@ export default (): Array<IWebpackConfiguration> => {
         }),
       ],
       entry: [
-        ...baseConfig.entry,
+        'cross-fetch/polyfill',
         './src/client/index.tsx',
       ],
       output: {
