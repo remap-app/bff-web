@@ -3,11 +3,11 @@ import { hot } from 'react-hot-loader'
 import { App } from '../components/App'
 import { Hello } from '../components/Hello'
 
-interface IProps {
+export interface IRootProps {
   restaurants: any;
 }
 
-export const Root = hot(module)((props: IProps) => {
+export const Root = hot(module)((props: IRootProps) => {
   return <div>
     <Hello name='World' />
     <App restaurants={props.restaurants} />

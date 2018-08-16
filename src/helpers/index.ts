@@ -1,11 +1,7 @@
-export interface IUnknownError {
-  error: 'Unknown Error';
-  status: 520;
-  _message: string;
-}
+/// <reference path='../typings.d.ts' />
 
-export const createUnknownError = (error: Error): IUnknownError => ({
-  error: 'Unknown Error',
-  status: 520,
-  _message: error.toString(),
-})
+import { createError } from 'micro-errors'
+
+export const createUnknownError = (error: Error): Error => {
+  return createError(520, 'Unknown Error', error)
+}

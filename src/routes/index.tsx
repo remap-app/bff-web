@@ -22,8 +22,6 @@ router.get('*', async (req: express.Request, res: express.Response) => {
 
   res.write('<!doctype html>')
 
-  const context = {}
-
   // dev assets
   let assets = null
   if (res.locals && res.locals.webpackStats) {
@@ -39,19 +37,29 @@ router.get('*', async (req: express.Request, res: express.Response) => {
     )
   }
 
-  renderToNodeStream(
-    <Html
-      lang='ja'
-      title='App'
-      publicPath='/'
-      initialData={JSON.stringify(initialData)}
-      assets={assets}
-    >
-      <StaticRouter location={req.url} context={context}>
-        <Routes />
-      </StaticRouter>
-    </Html>
-  ).pipe(res)
+  const context: { url?: string; } = {}
+  const app = (
+    <StaticRouter location={req.url} context={context}>
+      <Routes />
+    </StaticRouter>
+  )
+
+  if (context.url) {
+    res.writeHead(302, { Location: context.url })
+    res.end()
+  } else {
+    renderToNodeStream(
+      <Html
+        lang='ja'
+        title='App'
+        publicPath='/'
+        initialData={JSON.stringify(initialData)}
+        assets={assets}
+      >
+        {app}
+      </Html>
+    ).pipe(res)
+  }
 })
 
 export default router
