@@ -1,8 +1,15 @@
 import * as querystring from 'querystring'
-import { Service } from '../Service'
-import { IQuery } from './types'
+import { Base } from '../Base'
 
-export class Restaurants extends Service {
+export interface IQuery {
+  latitude: string;
+  longitude: string;
+  range?: number;
+  page?: number;
+  per_page?: number;
+}
+
+export class Restaurants extends Base {
   private static get rootEndpoint() {
     return process.env.RESTAURANTS_ENDPOINT
   }

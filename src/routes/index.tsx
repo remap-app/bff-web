@@ -1,11 +1,14 @@
 import * as express from 'express'
 import * as React from 'react'
 import { renderToNodeStream } from 'react-dom/server'
+import { Provider as ReduxProvider } from 'react-redux'
 import { StaticRouter } from 'react-router'
+import { createMemoryHistory } from 'history'
 import { Html } from '../template/Html'
 import { Routes } from './Routes'
-import { Restaurants } from '../services/restaurants'
-import { IQuery } from '../services/restaurants/types'
+import { Restaurants } from '../api/restaurants'
+import { IQuery } from '../api/restaurants'
+import configureStore from '../store/configureStore.dev'
 
 const router = express.Router()
 
@@ -17,8 +20,6 @@ router.get('*', async (req: express.Request, res: express.Response) => {
       ? Restaurants.getList(req.query)
       : Promise.resolve({})
   )
-
-  const initialData = { restaurants }
 
   res.write('<!doctype html>')
 
@@ -36,7 +37,7 @@ router.get('*', async (req: express.Request, res: express.Response) => {
       { js: [], css: [] }
     )
   }
-
+  const { store, history } = configureStore({ restaurants }, createMemoryHistory())
   const context: { url?: string; } = {}
   const app = (
     <StaticRouter location={req.url} context={context}>
@@ -53,10 +54,12 @@ router.get('*', async (req: express.Request, res: express.Response) => {
         lang='ja'
         title='App'
         publicPath='/'
-        initialData={JSON.stringify(initialData)}
+        initialData={JSON.stringify(store.getState())}
         assets={assets}
       >
-        {app}
+        <ReduxProvider store={store}>
+          {app}
+        </ReduxProvider>
       </Html>
     ).pipe(res)
   }

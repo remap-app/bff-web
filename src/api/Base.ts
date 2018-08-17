@@ -1,6 +1,6 @@
 import { createUnknownError } from '../helpers'
 
-export class Service {
+export class Base {
   static async get(url: string): Promise<any> {
     const res = await fetch(url)
     if (res.ok) {

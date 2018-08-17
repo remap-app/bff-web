@@ -1,5 +1,5 @@
 import * as express from 'express'
-import { Restaurants } from '../../../services/restaurants'
+import { Restaurants } from '../../../api/restaurants'
 
 export const getRestaurants = async (req: express.Request, res: express.Response) => {
   const result = await Restaurants.getList(req.query)
