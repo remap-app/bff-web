@@ -1,25 +1,45 @@
+import { parse as parseQueryString, ParsedUrlQuery } from 'querystring'
 import * as React from 'react'
 import { Request } from 'express'
+import { Dispatch, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { match } from 'react-router'
-import { App, IProps as IAppProps} from '../components/App'
+import { match, withRouter, RouteProps } from 'react-router'
+import { compose } from 'recompose'
+import { App } from '../components/App'
 import { IState } from '../reducer'
-import { Restaurants, IQuery } from '../api/restaurants'
-import { fetchRestaurantsReceive } from '../modules/restaurants'
+import { Restaurants } from '../api/restaurants'
+import { fetchRestaurants, fetchRestaurantsReceive } from '../modules/restaurants'
+import { IData as IRestaurants } from '../modules/restaurants'
 
-export type IProps = IAppProps
-
-const Top = (props: IProps): JSX.Element => {
-  return (
-    <App restaurants={props.restaurants} />
-  )
+export interface IProps extends RouteProps {
+  restaurants: IRestaurants;
+  fetchRestaurants: Function;
 }
 
-export default connect(
-  (state: IState) => ({ restaurants: state.restaurants.data })
-)(Top)
+const hasLocation = (query?: ParsedUrlQuery) => !!query && !!query.latitude && !!query.longitude
 
-const hasLocation = (query?: IQuery) => !!query && !!query.latitude && !!query.longitude
+class Top extends React.Component<IProps> {
+  componentDidMount(): void {
+    const { location }: any = this.props
+    const query = parseQueryString(location.search.slice(1))
+    if (this.props.restaurants.length === 0 && hasLocation(query)) {
+      this.props.fetchRestaurants(query)
+    }
+  }
+  render(): JSX.Element {
+    return <App restaurants={this.props.restaurants} />
+  }
+}
+
+export default compose(
+  withRouter,
+  connect(
+    (state: IState) => ({ restaurants: state.restaurants.data }),
+    (dispatch: Dispatch) => bindActionCreators({
+      fetchRestaurants,
+    }, dispatch)
+  )
+)(Top)
 
 export const getInitialAction = async (req: Request, match: match<{}>, state: IState) => {
   const restaurants = await (hasLocation(req.query)
