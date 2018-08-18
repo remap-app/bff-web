@@ -1,4 +1,4 @@
-import * as express from 'express'
+import { Router, Request, Response } from 'express'
 import * as React from 'react'
 import { renderToNodeStream } from 'react-dom/server'
 import { Provider as ReduxProvider } from 'react-redux'
@@ -9,9 +9,9 @@ import { Root } from '../containers/Root'
 import configureStore from '../store/configureStore.dev'
 import { routesConfig } from './routesConfig';
 
-const router = express.Router()
+const router = Router()
 
-router.get('*', async (req: express.Request, res: express.Response) => {
+router.get('*', async (req: Request, res: Response) => {
   // dev assets
   let assets = null
   if (res.locals && res.locals.webpackStats) {

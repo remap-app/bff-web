@@ -1,10 +1,10 @@
-import * as express from 'express'
+import { Router, Response } from 'express'
 import { getRestaurants, getRestaurantById } from './v1/restaurants'
-const router = express.Router()
+const router = Router()
 
 router.get('/v1/restaurants', getRestaurants)
 router.get('/v1/restaurants/:id', getRestaurantById)
-router.get('/*', (_, res: express.Response) => {
+router.get('/*', (_, res: Response) => {
   res.status(404).json({
     error: 'Not Found',
     status: 404,

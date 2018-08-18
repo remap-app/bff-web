@@ -1,4 +1,4 @@
-import { createStore, compose, applyMiddleware, Store } from 'redux'
+import { createStore, compose, applyMiddleware } from 'redux'
 import { routerMiddleware } from 'connected-react-router'
 import createThunkMiddleware from './middlewares/createThunkMiddleware'
 import rootReducer, { IState } from '../reducer'

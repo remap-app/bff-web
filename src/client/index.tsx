@@ -1,5 +1,5 @@
 import * as React from 'react'
-import * as ReactDOM from 'react-dom'
+import { hydrate } from 'react-dom'
 import { Provider as ReduxProvider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
 import { Root } from '../containers/Root'
@@ -10,7 +10,7 @@ import { getInitialState } from './helpers'
 const main = () => {
   const initialState = getInitialState()
   const store = configureStore(initialState)
-  ReactDOM.hydrate(
+  hydrate(
     <ReduxProvider store={store}>
       <ConnectedRouter history={history}><Root /></ConnectedRouter>
     </ReduxProvider>,

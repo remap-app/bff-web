@@ -1,4 +1,4 @@
-import * as querystring from 'querystring'
+import { stringify as stringifyParsedQuery } from 'querystring'
 import { Base } from '../Base'
 
 export interface IQuery {
@@ -15,7 +15,7 @@ export class Restaurants extends Base {
   }
 
   public static async getList(query: IQuery): Promise<any> {
-    return this.get(`${this.rootEndpoint}?${querystring.stringify(query)}`)
+    return this.get(`${this.rootEndpoint}?${stringifyParsedQuery(query)}`)
   }
 
   public static async getById(id: string): Promise<any> {
