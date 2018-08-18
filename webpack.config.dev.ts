@@ -3,6 +3,7 @@ require('dotenv').config()
 import * as path from 'path'
 import * as webpack from 'webpack'
 import * as CleanWebpackPlugin from 'clean-webpack-plugin'
+import * as FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin'
 import baseConfig, { IWebpackConfiguration } from './webpack.config.base'
 
 interface IWebpackConfigOutput {
@@ -27,6 +28,7 @@ const config: IWebpackConfigurationDev = {
       'process.env.RESTAURANTS_ENDPOINT': JSON.stringify(process.env.RESTAURANTS_ENDPOINT),
     }),
     new webpack.HotModuleReplacementPlugin(),
+    new FriendlyErrorsWebpackPlugin(),
   ],
   entry: [
     ...baseConfig.entry,
