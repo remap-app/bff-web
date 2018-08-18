@@ -2,14 +2,14 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { Provider as ReduxProvider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
-import { createBrowserHistory } from 'history'
 import { Root } from '../containers/Root'
 import configureStore from '../store/configureStore.dev'
+import history from '../history'
 import { getInitialState } from './helpers'
 
 const main = () => {
   const initialState = getInitialState()
-  const { store, history } = configureStore(initialState, createBrowserHistory())
+  const store = configureStore(initialState)
   ReactDOM.hydrate(
     <ReduxProvider store={store}>
       <ConnectedRouter history={history}><Root /></ConnectedRouter>

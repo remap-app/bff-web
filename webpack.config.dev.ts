@@ -31,7 +31,7 @@ const config: IWebpackConfigurationDev = {
     new FriendlyErrorsWebpackPlugin(),
   ],
   entry: [
-    ...baseConfig.entry,
+    'cross-fetch/polyfill',
     './src/client/index.tsx',
     'webpack-hot-middleware/client',
   ],

@@ -3,24 +3,18 @@ import * as React from 'react'
 import { renderToNodeStream } from 'react-dom/server'
 import { Provider as ReduxProvider } from 'react-redux'
 import { StaticRouter } from 'react-router'
-import { createMemoryHistory } from 'history'
 import { Html } from '../template/Html'
 import { Root } from '../containers/Root'
 import { Restaurants } from '../api/restaurants'
 import { IQuery } from '../api/restaurants'
 import configureStore from '../store/configureStore.dev'
+import { fetchRestaurantsReceive } from '../modules/restaurants'
 
 const router = express.Router()
 
 const hasLocation = (query: IQuery) => !!query.latitude && !!query.longitude
 
 router.get('*', async (req: express.Request, res: express.Response) => {
-  const restaurants = await (
-    hasLocation(req.query)
-      ? Restaurants.getList(req.query)
-      : Promise.resolve({})
-  )
-
   // dev assets
   let assets = null
   if (res.locals && res.locals.webpackStats) {
@@ -48,7 +42,15 @@ router.get('*', async (req: express.Request, res: express.Response) => {
     res.end()
   } else {
     res.write('<!doctype html>')
-    const { store } = configureStore({ restaurants }, createMemoryHistory())
+    const restaurants = await (
+      hasLocation(req.query)
+        ? Restaurants.getList(req.query)
+        : Promise.resolve({})
+    )
+
+    const store = configureStore()
+    store.dispatch(fetchRestaurantsReceive(restaurants))
+
     renderToNodeStream(
       <Html
         lang='ja'

@@ -1,13 +1,13 @@
-import { createStore, compose, applyMiddleware } from 'redux'
-import { connectRouter, routerMiddleware } from 'connected-react-router'
-import { History } from 'history'
+import { createStore, compose, applyMiddleware, Store } from 'redux'
+import { routerMiddleware } from 'connected-react-router'
 import createThunkMiddleware from './middlewares/createThunkMiddleware'
-import rootReducer from '../reducer'
+import rootReducer, { IState } from '../reducer'
+import history from '../history'
 
-const configureStore = (initialState: any, history: History) => {
+const configureStore = (initialState?: IState) => {
   const store = createStore(
-    connectRouter(history)(rootReducer),
-    initialState,
+    rootReducer,
+    initialState as IState,
     compose(
       applyMiddleware(
         routerMiddleware(history),
@@ -22,7 +22,7 @@ const configureStore = (initialState: any, history: History) => {
     })
   }
 
-  return { store, history }
+  return store
 }
 
 export default configureStore
