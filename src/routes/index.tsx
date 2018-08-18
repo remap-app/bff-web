@@ -3,16 +3,13 @@ import * as React from 'react'
 import { renderToNodeStream } from 'react-dom/server'
 import { Provider as ReduxProvider } from 'react-redux'
 import { StaticRouter } from 'react-router'
+import { matchRoutes, MatchedRoute } from 'react-router-config'
 import { Html } from '../template/Html'
 import { Root } from '../containers/Root'
-import { Restaurants } from '../api/restaurants'
-import { IQuery } from '../api/restaurants'
 import configureStore from '../store/configureStore.dev'
-import { fetchRestaurantsReceive } from '../modules/restaurants'
+import { routesConfig } from './routesConfig';
 
 const router = express.Router()
-
-const hasLocation = (query: IQuery) => !!query.latitude && !!query.longitude
 
 router.get('*', async (req: express.Request, res: express.Response) => {
   // dev assets
@@ -41,16 +38,18 @@ router.get('*', async (req: express.Request, res: express.Response) => {
     res.writeHead(302, { Location: context.url })
     res.end()
   } else {
-    res.write('<!doctype html>')
-    const restaurants = await (
-      hasLocation(req.query)
-        ? Restaurants.getList(req.query)
-        : Promise.resolve({})
-    )
-
+    // Prepare initial state
     const store = configureStore()
-    store.dispatch(fetchRestaurantsReceive(restaurants))
+    const matchedRoutes: MatchedRoute<{}>[] = matchRoutes<{}>(routesConfig, req.path)
+    for (const { route, match } of matchedRoutes) {
+      const component: any = route.component
+      if (component.getInitialAction && typeof component.getInitialAction === 'function') {
+        const action = await component.getInitialAction(req, match, store.getState())
+        store.dispatch(action)
+      }
+    }
 
+    res.write('<!doctype html>')
     renderToNodeStream(
       <Html
         lang='ja'
