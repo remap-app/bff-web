@@ -5,7 +5,7 @@ import { Provider as ReduxProvider } from 'react-redux'
 import { StaticRouter } from 'react-router'
 import { createMemoryHistory } from 'history'
 import { Html } from '../template/Html'
-import { Routes } from './Routes'
+import { Root } from '../containers/Root'
 import { Restaurants } from '../api/restaurants'
 import { IQuery } from '../api/restaurants'
 import configureStore from '../store/configureStore.dev'
@@ -21,8 +21,6 @@ router.get('*', async (req: express.Request, res: express.Response) => {
       : Promise.resolve({})
   )
 
-  res.write('<!doctype html>')
-
   // dev assets
   let assets = null
   if (res.locals && res.locals.webpackStats) {
@@ -37,11 +35,11 @@ router.get('*', async (req: express.Request, res: express.Response) => {
       { js: [], css: [] }
     )
   }
-  const { store, history } = configureStore({ restaurants }, createMemoryHistory())
+
   const context: { url?: string; } = {}
   const app = (
     <StaticRouter location={req.url} context={context}>
-      <Routes />
+      <Root />
     </StaticRouter>
   )
 
@@ -49,6 +47,8 @@ router.get('*', async (req: express.Request, res: express.Response) => {
     res.writeHead(302, { Location: context.url })
     res.end()
   } else {
+    res.write('<!doctype html>')
+    const { store } = configureStore({ restaurants }, createMemoryHistory())
     renderToNodeStream(
       <Html
         lang='ja'

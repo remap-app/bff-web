@@ -1,4 +1,4 @@
-import { createUnknownError } from '../helpers'
+import { createInternalServerError } from './helpers'
 
 export class Base {
   static async get(url: string): Promise<any> {
@@ -6,6 +6,6 @@ export class Base {
     if (res.ok) {
       return await res.json()
     }
-    return await res.json().catch(createUnknownError)
+    return await res.json().catch(createInternalServerError)
   }
 }

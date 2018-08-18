@@ -3,9 +3,7 @@ require('dotenv').config()
 import * as path from 'path'
 import * as webpack from 'webpack'
 import * as CleanWebpackPlugin from 'clean-webpack-plugin'
-import baseConfig from './webpack.config.base'
-
-import { IWebpackConfiguration } from './webpack.config.base'
+import baseConfig, { IWebpackConfiguration } from './webpack.config.base'
 
 interface IWebpackConfigOutput {
   filename: string;
@@ -19,6 +17,7 @@ export interface IWebpackConfigurationDev extends IWebpackConfiguration {
 
 const config: IWebpackConfigurationDev = {
   ...baseConfig,
+  name: 'client',
   mode: 'development',
   plugins: [
     new CleanWebpackPlugin(['dev'], { verbose: true }),

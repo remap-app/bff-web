@@ -1,9 +1,7 @@
 import * as webpack from 'webpack'
 
-export type WebpackConfigEntry = Array<string>
-
 export interface IWebpackConfiguration extends webpack.Configuration {
-  entry: WebpackConfigEntry;
+  entry: string[];
 }
 
 const baseConfig: IWebpackConfiguration = {

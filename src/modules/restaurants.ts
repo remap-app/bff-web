@@ -1,21 +1,22 @@
 import { Dispatch, Store } from 'redux'
 import actionCreatorFactory, { Action } from 'typescript-fsa'
 import { reducerWithInitialState } from 'typescript-fsa-reducers'
-import { IQuery } from '../api/restaurants'
+import { IQuery as IRestaurantsQuery } from '../api/restaurants'
 
 const createActionCreator = actionCreatorFactory('remap/restaurants')
 
+export type IData = {}[] // tmp
 export interface IState {
   data: IData;
   isRequesting: boolean;
   error: Error | null;
 }
-export type IData = {}[] // tmp
+type Payload = IData | Error
 export enum ActionTypes {
   FETCH_RESTAURANTS_REQUEST = 'FETCH_RESTAURANTS/REQUEST',
   FETCH_RESTAURANTS_RECEIVE = 'FETCH_RESTAURANTS/RECEIVE',
 }
-export type Payload = IData | Error
+
 export const initialState: IState = {
   data: [],
   isRequesting: false,
@@ -23,12 +24,14 @@ export const initialState: IState = {
 }
 
 export const fetchRestaurantsRequest = createActionCreator(ActionTypes.FETCH_RESTAURANTS_REQUEST)
-export const fetchRestaurantsReceive = createActionCreator<IData>(ActionTypes.FETCH_RESTAURANTS_RECEIVE)
-export const fetchRestaurants = (query: IQuery) => async (dispatch: Dispatch, getState: Store['getState'], { api }: any) => {
+export const fetchRestaurantsReceive = createActionCreator<Payload>(ActionTypes.FETCH_RESTAURANTS_RECEIVE)
+
+export const fetchRestaurants = (query: IRestaurantsQuery) => async (dispatch: Dispatch, getState: Store['getState'], { api }: any) => {
   dispatch(fetchRestaurantsRequest())
-  const payload = await api.getList(query).catch((error: Error) => error)
+  const payload = await api.Restaurants.getList(query).catch((error: Error) => error)
   dispatch(fetchRestaurantsReceive(payload))
 }
+
 export const reducer = reducerWithInitialState(initialState)
   .caseWithAction(fetchRestaurantsRequest, (state: IState): IState => {
     return {
@@ -36,17 +39,17 @@ export const reducer = reducerWithInitialState(initialState)
       isRequesting: true,
     }
   })
-  .caseWithAction(fetchRestaurantsReceive, (state: IState, action: any): IState => {
-    const next = { ...state }
+  .caseWithAction(fetchRestaurantsReceive, (state: IState, action: Action<any>): IState => {
     return action.error
       ? {
-        data: state.data,
+        ...state,
         isRequesting: false,
         error: action.payload,
       }
       : {
+        ...state,
         data: action.payload,
         isRequesting: false,
         error: null,
-      }
+      };
   })

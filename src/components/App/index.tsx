@@ -1,8 +1,9 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
+import { IData as IRestaurants } from '../../modules/restaurants'
 
-interface IProps {
-  restaurants: any;
+export interface IProps {
+  restaurants: IRestaurants;
 }
 
 export const App = (props: IProps) => {

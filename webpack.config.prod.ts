@@ -2,19 +2,20 @@ require('dotenv').config()
 
 import * as path from 'path'
 import * as webpack from 'webpack'
+import * as webpackNodeExternals from 'webpack-node-externals'
 import * as CleanWebpackPlugin from 'clean-webpack-plugin'
-import baseConfig from './webpack.config.base'
-
-import { IWebpackConfiguration } from './webpack.config.base'
+import baseConfig, { IWebpackConfiguration } from './webpack.config.base'
 
 const { NODE_ENV = 'development', ASSET_PATH = '/', RESTAURANTS_ENDPOINT } = process.env
 
-export default (): Array<IWebpackConfiguration> => {
+export default (): IWebpackConfiguration[] => {
   return [
     // server
     {
       ...baseConfig,
+      name: 'server',
       mode: 'production',
+      externals: [webpackNodeExternals()],
       plugins: [
         new CleanWebpackPlugin(['dist'], { verbose: true }),
         new webpack.DefinePlugin({
@@ -33,6 +34,7 @@ export default (): Array<IWebpackConfiguration> => {
     // client
     {
       ...baseConfig,
+      name: 'client',
       mode: 'production',
       plugins: [
         new CleanWebpackPlugin(['public'], { verbose: true }),
