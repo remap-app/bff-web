@@ -1,11 +1,11 @@
 import { Dispatch, Store } from 'redux'
 import actionCreatorFactory, { Action } from 'typescript-fsa'
 import { reducerWithInitialState } from 'typescript-fsa-reducers'
-import { IQuery as IRestaurantsQuery } from '../api/restaurants'
+import { IQuery as IRestaurantsQuery, IRestaurant } from '../api/restaurants'
 
 const createActionCreator = actionCreatorFactory('remap/restaurants')
 
-export type IData = {}[] // tmp
+export type IData = IRestaurant[]
 export interface IState {
   data: IData;
   isRequesting: boolean;

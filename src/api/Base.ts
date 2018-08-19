@@ -6,6 +6,8 @@ export class Base {
     if (res.ok) {
       return await res.json()
     }
-    return await res.json().catch(createInternalServerError)
+    return await res.json().catch((error: Error) => {
+      throw createInternalServerError(error)
+    })
   }
 }

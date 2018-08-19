@@ -8,6 +8,7 @@ import * as webpackHotMiddleware from 'webpack-hot-middleware'
 import routes from '../routes'
 import apiRoutes from '../routes/api'
 import webpackConfig from '../../webpack.config.dev'
+import { errorHandler } from './errorHandler'
 
 const server = express()
 const { PORT = 3000 } = process.env
@@ -26,6 +27,7 @@ server.use(webpackHotMiddleware(compiler, {
 server.use(express.static(resolve(process.cwd(), 'dev')))
 server.use('/api', apiRoutes) // should be above top more than '/'
 server.use('/', routes)
+server.use(errorHandler)
 server.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
   next(err)
 })
