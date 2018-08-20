@@ -34,14 +34,14 @@ class Top extends React.Component<IProps> {
 export default compose(
   withRouter,
   connect(
-    (state: IState) => ({ restaurants: state.restaurants.data }),
+    (state: IState) => ({ restaurants: state.restaurants.data as IRestaurants }),
     (dispatch: Dispatch) => bindActionCreators({
       fetchRestaurants,
     }, dispatch)
   )
 )(Top)
 
-export const getInitialAction = async (req: Request, match: match<{}>, state: IState) => {
+export const getInitialAction = async (req: Request) => {
   const restaurants = await (hasLocation(req.query)
     ? Restaurants.getList(req.query)
     : Promise.resolve([])
