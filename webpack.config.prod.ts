@@ -9,10 +9,12 @@ import baseConfig, { IWebpackConfiguration } from './webpack.config.base'
 const { NODE_ENV = 'development', ASSET_PATH = '/', RESTAURANTS_ENDPOINT } = process.env
 
 export default (): IWebpackConfiguration[] => {
+  const base = baseConfig(false)
+
   return [
     // server
     {
-      ...baseConfig,
+      ...base,
       name: 'server',
       mode: 'production',
       externals: [webpackNodeExternals()],
@@ -33,7 +35,7 @@ export default (): IWebpackConfiguration[] => {
 
     // client
     {
-      ...baseConfig,
+      ...base,
       name: 'client',
       mode: 'production',
       plugins: [

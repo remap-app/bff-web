@@ -1,9 +1,9 @@
+import { IState } from '../reducer'
+
+declare var window: { __INITIAL_STATE__: IState };
+
 export const getInitialState = () => {
-  const el = document.getElementById('initial-data')
-  const json = el ? (el.getAttribute('data-json') || '{}') : '{}'
-  const initialState = JSON.parse(json)
-  if (el) {
-    document.body.removeChild(el)
-  }
+  const initialState = window.__INITIAL_STATE__
+  delete window.__INITIAL_STATE__
   return initialState
 }

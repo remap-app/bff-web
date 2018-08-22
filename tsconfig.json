@@ -14,5 +14,9 @@
   "exclude": [
     "node_modules",
     "**/*.test.ts"
+  ],
+  "typeRoots": [
+    "node_modules",
+    "src/index.d.ts"
   ]
 }

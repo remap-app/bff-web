@@ -1,3 +1,5 @@
+declare module 'styledux'
+
 declare module 'micro-errors' {
   interface IData {
     type?: string;
@@ -16,3 +18,7 @@ declare module 'micro-errors' {
 
   export function createError(status: number, title: string, originalError?: Error, optionalData?: IData): IMicroError;
 }
+
+declare module '*.css'
+declare module '*.png'
+declare module '*.jpg'

@@ -1,6 +1,7 @@
 {
   "watch": ["src"],
+  "verbose": true,
   "ext": "ts,tsx",
-  "exec": "ts-node src/server/dev",
+  "exec": "webpack --config webpack.config.dev.server.ts && node dist-dev/dev-server",
   "delay": "1000"
 }

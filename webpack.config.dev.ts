@@ -16,8 +16,10 @@ export interface IWebpackConfigurationDev extends IWebpackConfiguration {
   output: IWebpackConfigOutput;
 }
 
+const base = baseConfig(true)
+
 const config: IWebpackConfigurationDev = {
-  ...baseConfig,
+  ...base,
   name: 'client',
   mode: 'development',
   plugins: [
