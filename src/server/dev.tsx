@@ -7,7 +7,7 @@ import * as webpackDevMiddleware from 'webpack-dev-middleware'
 import * as webpackHotMiddleware from 'webpack-hot-middleware'
 import routes from '../routes'
 import apiRoutes from '../routes/api'
-import webpackConfig from '../../webpack.config.dev'
+import webpackConfig from '../../webpack.config.dev.client'
 import { errorHandler } from './errorHandler'
 
 const server = express()
