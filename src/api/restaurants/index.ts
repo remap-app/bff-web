@@ -1,5 +1,6 @@
 import { stringify as stringifyParsedQuery } from 'querystring'
 import { Base } from '../Base'
+import { isServer } from '../../helpers'
 
 export interface IQuery {
   latitude: string;
@@ -33,11 +34,11 @@ export interface IRestaurant {
 
 export class Restaurants extends Base {
   private static get rootEndpoint() {
-    return process.env.RESTAURANTS_ENDPOINT
+    return isServer ? process.env.RESTAURANTS_ENDPOINT : '/api/v1/restaurants'
   }
 
   public static async getList(query: IQuery): Promise<IRestaurant[]> {
-    return await this.get(`${this.rootEndpoint}?${stringifyParsedQuery(query)}`)
+    return await this.get(`${this.rootEndpoint}/?${stringifyParsedQuery(query)}`)
   }
 
   public static async getById(id: string): Promise<IRestaurant> {

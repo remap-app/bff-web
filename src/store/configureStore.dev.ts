@@ -3,6 +3,7 @@ import { routerMiddleware } from 'connected-react-router'
 import createThunkMiddleware from './middlewares/createThunkMiddleware'
 import rootReducer, { IState } from '../reducer'
 import history from '../history'
+import { geolocationMiddleware } from './middlewares/geolocationMiddleware';
 
 const configureStore = (initialState?: IState) => {
   const store = createStore(
@@ -11,7 +12,8 @@ const configureStore = (initialState?: IState) => {
     compose(
       applyMiddleware(
         routerMiddleware(history),
-        createThunkMiddleware()
+        createThunkMiddleware(),
+        geolocationMiddleware
       )
     )
   )
