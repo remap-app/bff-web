@@ -1,3 +1,4 @@
+import { ParsedUrlQuery } from 'querystring'
 import { Router, Request, Response } from 'express'
 import * as React from 'react'
 import { renderToString } from 'react-dom/server'
@@ -9,8 +10,19 @@ import { Root } from '../containers/Root'
 import configureStore from '../store/configureStore.dev'
 import { routesConfig } from './routesConfig';
 import render from '../server/render'
+import { IState } from '../reducer'
 
 const router = Router()
+
+export interface IRouteContext {
+  req: Request;
+  res: Response;
+  query: ParsedUrlQuery;
+  pathname: string;
+  params: object;
+  originalUrl: string;
+  state: IState;
+}
 
 router.get('*', async (req: Request, res: Response) => {
   // dev assets
@@ -47,9 +59,18 @@ router.get('*', async (req: Request, res: Response) => {
   const matchedRoutes: MatchedRoute<{}>[] = matchRoutes<{}>(routesConfig, req.path)
   for (const { route, match } of matchedRoutes) {
     const component: any = route.component
-    if (component.getInitialAction && typeof component.getInitialAction === 'function') {
-      const action = await component.getInitialAction(req, match, store.getState())
-      store.dispatch(action)
+    if (typeof component.getInitialAction === 'function') {
+      const context: IRouteContext = {
+        req,
+        res,
+        pathname: req.path,
+        query: req.query,
+        params: req.params,
+        originalUrl: req.originalUrl,
+        state: store.getState(),
+      }
+      const action = await component.getInitialAction(context)
+      await store.dispatch(action)
     }
   }
 

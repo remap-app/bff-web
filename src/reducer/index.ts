@@ -5,14 +5,16 @@ import { reducer as geolocation, IState as IGeolocationState } from '../modules/
 import history from '../history'
 
 export interface IState {
-  router: RouterState;
+  router?: RouterState;
   restaurants: IRestaurantsState;
   geolocation: IGeolocationState;
 }
 
-export default connectRouter(history)(
+const rootReducer = connectRouter(history)(
   combineReducers({
     restaurants,
     geolocation,
   })
 )
+
+export default rootReducer

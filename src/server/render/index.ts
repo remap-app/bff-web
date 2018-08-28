@@ -9,7 +9,7 @@ export const renderHeader = (props: any): string => (
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     ${props.assets && props.assets.css ? (
       props.assets.css.map((asset: string) => (
-        `<link rel="stylesheet" href="${asset}" />`
+        `<link rel="stylesheet" href="/${asset}" />`
       )).join('')
     ) : ''}
     ${props.styles.join('')}
@@ -22,7 +22,7 @@ export const renderFooter = (props: any): string => (
 `</div>
     <script>window.__INITIAL_STATE__ = ${serialize(props.initialData)}</script>
     ${props.assets && props.assets.js ? (
-      props.assets.js.map((asset: string) => `<script src="${asset}"></script>`).join('')
+      props.assets.js.map((asset: string) => `<script src="/${asset}"></script>`).join('')
     ) : `<script src="${props.publicPath.replace(/\/$/, '')}/assets/client.js"></script>`}
   </body>
 </html>

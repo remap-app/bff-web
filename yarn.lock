@@ -15,6 +15,10 @@
     "@types/connect" "*"
     "@types/node" "*"
 
+"@types/classnames@^2.2.6":
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/@types/classnames/-/classnames-2.2.6.tgz#dbe8a666156d556ed018e15a4c65f08937c3f628"
+
 "@types/clean-webpack-plugin@^0.1.2":
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@types/clean-webpack-plugin/-/clean-webpack-plugin-0.1.2.tgz#f3c9d97dd397a9db86ba6b9b245ca0eedf88f3b2"
@@ -833,6 +837,10 @@ class-utils@^0.3.5:
     define-property "^0.2.5"
     isobject "^3.0.0"
     static-extend "^0.1.1"
+
+classnames@^2.2.6:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
 
 clean-webpack-plugin@^0.1.19:
   version "0.1.19"

@@ -5,13 +5,18 @@ import { IQuery as IRestaurantsQuery, IRestaurant } from '../api/restaurants'
 
 const createActionCreator = actionCreatorFactory('remap/restaurants')
 
-export type IData = IRestaurant[]
+export type IEntity = IRestaurant
+
+export type IData = IEntity[]
+
 export interface IState {
   data: IData;
   isRequesting: boolean;
   error: Error | null;
 }
-type Payload = IData | Error
+
+export type Payload = IData | Error
+
 export enum ActionTypes {
   FETCH_RESTAURANTS_REQUEST = 'FETCH_RESTAURANTS/REQUEST',
   FETCH_RESTAURANTS_RECEIVE = 'FETCH_RESTAURANTS/RECEIVE',

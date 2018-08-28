@@ -1,13 +1,13 @@
-import { stringify as stringifyParsedQuery } from 'querystring'
+import { stringify as stringifyParsedQuery, ParsedUrlQuery } from 'querystring'
 import { Base } from '../Base'
 import { isServer } from '../../helpers'
 
-export interface IQuery {
+export interface IQuery extends ParsedUrlQuery {
   latitude: string;
   longitude: string;
-  range?: number;
-  page?: number;
-  per_page?: number;
+  range?: string;
+  page?: string;
+  per_page?: string;
 }
 
 export interface IRestaurant {
