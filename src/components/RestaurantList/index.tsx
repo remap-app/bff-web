@@ -11,6 +11,7 @@ export interface IProps {
 }
 
 export const RestaurantList = withStyle(s)((props: IProps): JSX.Element => {
+  console.log('props', props)
   return (
     <div className={classnames(s.root, props.className)}>
       {props.restaurants.map(r => {

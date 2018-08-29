@@ -100,7 +100,7 @@ router.get('*', async (req: Request, res: Response) => {
 
   const styles = mapStateOnServer(styleStore)
   const css = sheetsRegistry.toString()
-  console.log('css', css)
+
   res.status(200).write(
     render(body, {
       lang: 'ja',
