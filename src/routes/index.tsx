@@ -2,11 +2,14 @@ import { ParsedUrlQuery } from 'querystring'
 import { Router, Request, Response } from 'express'
 import * as React from 'react'
 import { renderToString } from 'react-dom/server'
-import { Provider as ReduxProvider } from 'react-redux'
 import { StaticRouter } from 'react-router'
 import { matchRoutes, MatchedRoute } from 'react-router-config'
-import { createStyleduxStore, StyleduxProvider, mapStateOnServer } from 'styledux'
+import { SheetsRegistry } from 'react-jss/lib/jss'
+import JssProvider from 'react-jss/lib/JssProvider'
+import { createMuiTheme, createGenerateClassName } from '@material-ui/core/styles'
+import { createStyleduxStore, mapStateOnServer } from 'styledux'
 import { Root } from '../containers/Root'
+import { App } from '../containers/App'
 import configureStore from '../store/configureStore.dev'
 import { routesConfig } from './routesConfig';
 import render from '../server/render'
@@ -43,7 +46,7 @@ router.get('*', async (req: Request, res: Response) => {
   const context: { url?: string; } = {}
   const app = (
     <StaticRouter location={req.url} context={context}>
-      <Root />
+      <App />
     </StaticRouter>
   )
 
@@ -76,16 +79,28 @@ router.get('*', async (req: Request, res: Response) => {
 
   const styleStore = createStyleduxStore()
 
+  const sheetsRegistry = new SheetsRegistry()
+
+  // Create a sheetsManager instance.
+  const sheetsManager = new Map()
+
+  // Create a theme instance.
+  const theme = createMuiTheme();
+
+  // Create a new class name generator.
+  const generateClassName = createGenerateClassName();
+
   const body = renderToString(
-    <ReduxProvider store={store}>
-      <StyleduxProvider store={styleStore}>
+    <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
+      <Root reduxStore={store} styleduxStore={styleStore} theme={theme} sheetsManager={sheetsManager}>
         {app}
-      </StyleduxProvider>
-    </ReduxProvider>
+      </Root>
+    </JssProvider>
   )
 
   const styles = mapStateOnServer(styleStore)
-
+  const css = sheetsRegistry.toString()
+  console.log('css', css)
   res.status(200).write(
     render(body, {
       lang: 'ja',
@@ -94,6 +109,7 @@ router.get('*', async (req: Request, res: Response) => {
       styles,
       initialData: store.getState(),
       publicPath: '/',
+      css,
     })
   )
   res.end()

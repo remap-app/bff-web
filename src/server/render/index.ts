@@ -13,10 +13,11 @@ export const renderHeader = (props: any): string => (
       )).join('')
     ) : ''}
     ${props.styles.join('')}
+    <style id="jss-server-side">${props.css}</style>
     <style id="main-css"></style>
   </head>
   <body>
-    <div id="app">`)
+    <div id="root">`)
 
 export const renderFooter = (props: any): string => (
 `</div>

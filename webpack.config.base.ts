@@ -30,7 +30,6 @@ const baseConfig = (dev: boolean): IWebpackConfiguration => {
             }
           ],
         },
-  
       ],
     },
   }

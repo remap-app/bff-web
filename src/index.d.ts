@@ -1,5 +1,8 @@
 declare module 'styledux'
 
+declare module 'react-jss/lib/jss'
+declare module 'react-jss/lib/JssProvider'
+
 declare module 'micro-errors' {
   interface IData {
     type?: string;
