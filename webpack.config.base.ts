@@ -14,7 +14,7 @@ const baseConfig = (dev: boolean): IWebpackConfiguration => {
     entry: [],
     module: {
       rules: [
-        { test: /\.tsx?$/, loader: 'awesome-typescript-loader' },
+        { test: /\.tsx?$/, loader: 'ts-loader' },
         { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
         {
           test: /\.css$/,
