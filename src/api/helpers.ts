@@ -37,6 +37,10 @@ export const createInternalServerError = (error: Error): ProblemError => {
   return createProblemError(500, title, error)
 }
 
+export const throwInternalServerError = (error: Error): void => {
+  throw createInternalServerError(error)
+}
+
 export interface IProblemErrorResponse {
   status: number;
   title: string;

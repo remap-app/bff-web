@@ -1,13 +1,16 @@
-import { createInternalServerError } from './helpers'
+import { throwInternalServerError, createProblemError } from './helpers'
 
 export class Base {
   static async get(url: string): Promise<any> {
-    const res = await fetch(url)
+    const res = await fetch(url).catch((e: Error) => { throw e })
+
+    const body = await res.json().catch(throwInternalServerError)
+
     if (res.ok) {
-      return await res.json()
+      return body
     }
-    return await res.json().catch((error: Error) => {
-      throw createInternalServerError(error)
-    })
+
+    const { status, title, type, ...rest } = body
+    throw createProblemError(status, title, undefined, type, rest)
   }
 }

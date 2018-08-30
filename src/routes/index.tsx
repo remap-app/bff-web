@@ -23,7 +23,7 @@ export interface IRouteContext {
   res: Response;
   query: ParsedUrlQuery;
   pathname: string;
-  params: object;
+  params: { [key: string]: string };
   originalUrl: string;
   state: IState;
 }
@@ -61,7 +61,7 @@ router.get('*', async (req: Request, res: Response) => {
 
   // Prepare initial state
   const matchedRoutes: MatchedRoute<{}>[] = matchRoutes<{}>(routesConfig, req.path)
-  for (const { route } of matchedRoutes) {
+  for (const { route, match } of matchedRoutes) {
     const component: any = route.component
     if (typeof component.getInitialAction === 'function') {
       const context: IRouteContext = {
@@ -69,7 +69,7 @@ router.get('*', async (req: Request, res: Response) => {
         res,
         pathname: req.path,
         query: req.query,
-        params: req.params,
+        params: match.params,
         originalUrl: req.originalUrl,
         state: store.getState(),
       }

@@ -9,7 +9,7 @@ import CardMedia from '@material-ui/core/CardMedia'
 import CardContent from '@material-ui/core/CardContent'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import Typography from '@material-ui/core/Typography'
-import { MediaPlaceholder } from './MediaPlaceholder'
+import { MediaPlaceholder } from '../MediaPlaceholder'
 import { IEntity as IRestaurant } from '../../modules/restaurants'
 import * as s from './index.css'
 
@@ -25,7 +25,7 @@ export const RestaurantListItem = withStyle(s)((props: IProps): JSX.Element => {
       <CardActionArea className={s.action}>
         <Link to={`/restaurants/${props.restaurant.id}`} className={s.link}>
           <CardHeader
-            avatar={<Avatar>R</Avatar>}
+            avatar={<Avatar>{props.restaurant.name.slice(0, 1)}</Avatar>}
             title={props.restaurant.name}
             subheader={props.restaurant.catchphrase || '-'}
           />
