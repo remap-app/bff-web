@@ -1,10 +1,12 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
 import { IData as IRestaurants } from '../modules/restaurants'
+import { ICoords } from '../modules/geolocation'
 import { RestaurantList } from '../components/RestaurantList'
 
 export interface IProps {
   restaurants: IRestaurants;
+  coords: ICoords;
 }
 
 export const RestaurantsPage = (props: IProps): JSX.Element => {
@@ -12,5 +14,5 @@ export const RestaurantsPage = (props: IProps): JSX.Element => {
   if (props.restaurants.length === 0) {
     return <Link to={{ search: '?latitude=35.626208&longitude=139.6313544' }}>?latitude=35.626208&longitude=139.6313544</Link>
   }
-  return <RestaurantList restaurants={props.restaurants} />
+  return <RestaurantList restaurants={props.restaurants} coords={props.coords} />
 }

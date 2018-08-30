@@ -1,6 +1,7 @@
 import { ParsedUrlQuery } from 'querystring'
 import { Router, Request, Response } from 'express'
 import * as React from 'react'
+import { Action } from 'redux'
 import { renderToString } from 'react-dom/server'
 import { StaticRouter } from 'react-router'
 import { matchRoutes, MatchedRoute } from 'react-router-config'
@@ -72,8 +73,14 @@ router.get('*', async (req: Request, res: Response) => {
         originalUrl: req.originalUrl,
         state: store.getState(),
       }
-      const action = await component.getInitialAction(context)
-      await store.dispatch(action)
+      const actionOrAction = await component.getInitialAction(context)
+      const finalAction: Action[] = Array.isArray(actionOrAction)
+        ? actionOrAction
+        : [actionOrAction]
+
+      await Promise.all(
+        finalAction.map(a => store.dispatch(a))
+      )
     }
   }
 
@@ -114,7 +121,7 @@ router.get('*', async (req: Request, res: Response) => {
   )
   res.end()
 
-  // TODO:
+  // TODO: want to use stream
   // res.write('<!doctype html>')
   // renderToNodeStream(
   //   <Html
