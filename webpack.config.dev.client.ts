@@ -3,7 +3,6 @@ require('dotenv').config()
 import * as path from 'path'
 import * as webpack from 'webpack'
 import * as CleanWebpackPlugin from 'clean-webpack-plugin'
-import * as FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin'
 import baseConfig, { IWebpackConfiguration } from './webpack.config.base'
 
 interface IWebpackConfigOutput {
@@ -23,14 +22,13 @@ const config: IWebpackConfigurationDev = {
   name: 'client',
   mode: 'development',
   plugins: [
-    new CleanWebpackPlugin(['dev'], { verbose: true }),
+    new CleanWebpackPlugin(['public-dev'], { verbose: true }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development'),
       'process.env.ASSET_PATH': JSON.stringify('/'),
       'process.env.RESTAURANTS_ENDPOINT': JSON.stringify(process.env.RESTAURANTS_ENDPOINT),
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new FriendlyErrorsWebpackPlugin(),
   ],
   entry: [
     'cross-fetch/polyfill',

@@ -18,11 +18,8 @@ const compiler = webpack(webpackConfig)
 server.use(webpackDevMiddleware(compiler, {
   publicPath: webpackConfig.output.publicPath,
   serverSideRender: true,
-  logLevel: 'silent',
 }))
-server.use(webpackHotMiddleware(compiler, {
-  log: false,
-}))
+server.use(webpackHotMiddleware(compiler))
 
 server.use(express.static(resolve(process.cwd(), 'dev')))
 server.use('/api', apiRoutes) // should be above top more than '/'
