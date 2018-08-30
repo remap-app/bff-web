@@ -15,6 +15,7 @@ import configureStore from '../store/configureStore.dev'
 import { routesConfig } from './routesConfig'
 import render from '../server/render'
 import { IState } from '../reducer'
+import { theme } from '../style/theme'
 
 const router = Router()
 
@@ -92,14 +93,14 @@ router.get('*', async (req: Request, res: Response) => {
   const sheetsManager = new Map()
 
   // Create a theme instance.
-  const theme = createMuiTheme()
+  const muiTheme = createMuiTheme(theme)
 
   // Create a new class name generator.
   const generateClassName = createGenerateClassName()
 
   const body = renderToString(
     <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
-      <Root reduxStore={store} styleduxStore={styleStore} theme={theme} sheetsManager={sheetsManager}>
+      <Root reduxStore={store} styleduxStore={styleStore} theme={muiTheme} sheetsManager={sheetsManager}>
         {app}
       </Root>
     </JssProvider>

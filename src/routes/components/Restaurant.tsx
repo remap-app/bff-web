@@ -13,6 +13,7 @@ export interface IProps extends RouteComponentProps<{ id: string }> {
   route?: RouteConfig;
   restaurant: IRestaurant;
   loaded: boolean;
+  error?: Error;
   fetchRestaurant: Function;
   resetRestaurant: Function;
   restRestaurant: Function;
@@ -46,7 +47,11 @@ export class RestaurantRoute extends React.Component<IProps> {
   }
 
   render(): JSX.Element {
-    return <RestaurantPage restaurant={this.props.restaurant} />
+    return <RestaurantPage restaurant={this.props.restaurant} error={this.props.error} onRetry={this.handleRetry} />
+  }
+
+  handleRetry = (): void => {
+    this.props.fetchRestaurant(this.props.match.params.id)
   }
 }
 
@@ -54,6 +59,7 @@ export default connect(
   (state: IState) => ({
     restaurant: state.restaurant.data as IRestaurant,
     loaded: state.restaurant.loaded as boolean,
+    error: state.restaurant.error as Error,
   }),
   (dispatch: Dispatch) => bindActionCreators({
     fetchRestaurant,
