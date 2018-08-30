@@ -27,7 +27,7 @@ const baseConfig = (dev: boolean): IWebpackConfiguration => {
                 localIdentName: dev ? '[name]__[local]--[hash:base64:5]' : '[hash:base64:5]',
                 camelCase: 'dashesOnly',
               },
-            }
+            },
           ],
         },
       ],

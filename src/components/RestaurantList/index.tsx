@@ -11,7 +11,7 @@ export interface IProps {
 }
 
 export const RestaurantList = withStyle(s)((props: IProps): JSX.Element => {
-  console.log('props', props)
+  console.log('props', props) // eslint-disable-line
   return (
     <div className={classnames(s.root, props.className)}>
       {props.restaurants.map(r => {

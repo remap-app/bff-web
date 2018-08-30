@@ -11,7 +11,7 @@ import { createStyleduxStore, mapStateOnServer } from 'styledux'
 import { Root } from '../containers/Root'
 import { App } from '../containers/App'
 import configureStore from '../store/configureStore.dev'
-import { routesConfig } from './routesConfig';
+import { routesConfig } from './routesConfig'
 import render from '../server/render'
 import { IState } from '../reducer'
 
@@ -60,7 +60,7 @@ router.get('*', async (req: Request, res: Response) => {
 
   // Prepare initial state
   const matchedRoutes: MatchedRoute<{}>[] = matchRoutes<{}>(routesConfig, req.path)
-  for (const { route, match } of matchedRoutes) {
+  for (const { route } of matchedRoutes) {
     const component: any = route.component
     if (typeof component.getInitialAction === 'function') {
       const context: IRouteContext = {
@@ -85,10 +85,10 @@ router.get('*', async (req: Request, res: Response) => {
   const sheetsManager = new Map()
 
   // Create a theme instance.
-  const theme = createMuiTheme();
+  const theme = createMuiTheme()
 
   // Create a new class name generator.
-  const generateClassName = createGenerateClassName();
+  const generateClassName = createGenerateClassName()
 
   const body = renderToString(
     <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>

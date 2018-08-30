@@ -3,7 +3,7 @@ import { routerMiddleware } from 'connected-react-router'
 import createThunkMiddleware from './middlewares/createThunkMiddleware'
 import rootReducer, { IState } from '../reducer'
 import history from '../history'
-import { geolocationMiddleware } from './middlewares/geolocationMiddleware';
+import { geolocationMiddleware } from './middlewares/geolocationMiddleware'
 
 const configureStore = (initialState?: IState) => {
   const store = createStore(
@@ -20,7 +20,7 @@ const configureStore = (initialState?: IState) => {
 
   if (module.hot) {
     module.hot.accept('../reducer', () => {
-      store.replaceReducer(require('../reducer').default)
+      store.replaceReducer(require('../reducer').default) // eslint-disable-line
     })
   }
 

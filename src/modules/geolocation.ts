@@ -20,12 +20,15 @@ export interface IPositionOptions {
 }
 
 export class PositionError extends Error {
+  code: number;
+  message: string;
+
   public readonly name: 'PositionError'
-  constructor(
-    public code: number,
-    public message: string
-  ) {
+
+  constructor(code: number, message: string) {
     super(message)
+    this.code = code
+    this.message = message
     Object.setPrototypeOf(this, PositionError.prototype)
   }
 }
@@ -71,5 +74,5 @@ export const reducer = reducerWithInitialState(initialState)
         coords: action.payload,
         isLoading: false,
         error: null,
-      };
+      }
   })

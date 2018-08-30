@@ -1,4 +1,4 @@
-import { Dispatch, Store } from 'redux'
+import { Dispatch } from 'redux'
 import actionCreatorFactory, { Action } from 'typescript-fsa'
 import { reducerWithInitialState } from 'typescript-fsa-reducers'
 import { IQuery as IRestaurantsQuery, IRestaurant } from '../api/restaurants'
@@ -31,7 +31,7 @@ export const initialState: IState = {
 export const fetchRestaurantsRequest = createActionCreator(ActionTypes.FETCH_RESTAURANTS_REQUEST)
 export const fetchRestaurantsReceive = createActionCreator<Payload>(ActionTypes.FETCH_RESTAURANTS_RECEIVE)
 
-export const fetchRestaurants = (query: IRestaurantsQuery) => async (dispatch: Dispatch, getState: Store['getState'], { api }: any) => {
+export const fetchRestaurants = (query: IRestaurantsQuery) => async (dispatch: Dispatch, _: any, { api }: any) => {
   dispatch(fetchRestaurantsRequest())
   const payload = await api.Restaurants.getList(query).catch((error: Error) => error)
   dispatch(fetchRestaurantsReceive(payload))
@@ -56,5 +56,5 @@ export const reducer = reducerWithInitialState(initialState)
         data: action.payload,
         isRequesting: false,
         error: null,
-      };
+      }
   })

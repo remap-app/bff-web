@@ -3,15 +3,23 @@ import { STATUS_CODES } from 'http'
 const DEFAULT_TYPE: string = 'about:blank'
 
 export class ProblemError extends Error {
+  status: number
+  title: string
+  originalError?: Error
+  type: string;
+  details?: { [key: string]: any }
+
   public readonly name: 'ProblemError'
-  constructor(
-    public status: number,
-    public title: string,
-    public originalError?: Error,
-    public type: string = DEFAULT_TYPE,
-    public details?: { [key: string]: any }
-  ) {
+
+  constructor(status: number, title: string, originalError?: Error, type?: string, details?: { [key: string]: any }) {
     super(title)
+
+    this.status = status
+    this.title = title
+    this.originalError = originalError
+    this.type = type || DEFAULT_TYPE
+    this.details = details
+
     Object.setPrototypeOf(this, ProblemError.prototype)
   }
 }
