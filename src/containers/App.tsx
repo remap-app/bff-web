@@ -1,17 +1,18 @@
 import * as React from 'react'
 import { withStyle } from 'styledux'
+import { withRouter } from 'react-router'
 import { Location } from 'history'
 import { connect } from 'react-redux'
+import { compose } from 'recompose'
 import { Routes } from '../routes/Routes'
 import { BottomNav } from '../components/BottomNav'
-import { compose } from 'recompose'
-import { withRouter } from 'react-router';
 import { IState } from '../reducer'
+import { ICoords } from '../modules/geolocation'
 import * as s from './App.css'
 
 export interface IProps {
   location: Location;
-  queryString: string;
+  coords: ICoords;
 }
 
 class _App extends React.Component<IProps> {
@@ -32,7 +33,7 @@ class _App extends React.Component<IProps> {
     return (
       <div id='app'>
         <Routes />
-        <BottomNav value={val} location={this.props.location} queryString={this.props.queryString} />
+        <BottomNav value={val} location={this.props.location} coords={this.props.coords} />
       </div>
     )
   }
@@ -43,11 +44,7 @@ export const App = compose(
   connect(
     (state: IState) => {
       const { coords } = state.geolocation
-      return {
-        queryString: coords
-          ? `?latitude=${coords.latitude}&longitude=${coords.longitude}`
-          : '',
-      }
+      return { coords }
     }
   ),
   withStyle(s)
