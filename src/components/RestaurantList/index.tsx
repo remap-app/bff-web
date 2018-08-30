@@ -6,7 +6,7 @@ import ListSubheader from '@material-ui/core/ListSubheader'
 import LocationOff from '@material-ui/icons/LocationOff'
 import LocationOn from '@material-ui/icons/LocationOn'
 import classnames from 'classnames'
-import { RestaurantCard } from '../RestaurantCard'
+import { RestaurantListItem } from '../RestaurantListItem'
 import { IData as IRestaurants } from '../../modules/restaurants'
 import { ICoords } from '../../modules/geolocation'
 import * as s from './index.css'
@@ -32,7 +32,7 @@ export const RestaurantList = withStyle(s)((props: IProps): JSX.Element => {
             : <LocationOff />}
         </GridListTitle>
         {props.restaurants.map(r => {
-          return <RestaurantCard key={r.id} restaurant={r} component='li' />
+          return <RestaurantListItem key={r.id} restaurant={r} component='li' />
         })}
       </GridList>
     </div>

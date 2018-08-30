@@ -19,7 +19,7 @@ export interface IProps {
   component?: string;
 }
 
-export const RestaurantCard = withStyle(s)((props: IProps): JSX.Element => {
+export const RestaurantListItem = withStyle(s)((props: IProps): JSX.Element => {
   return (
     <Card className={classnames(s.root, props.className)} component={props.component}>
       <CardActionArea className={s.action}>
