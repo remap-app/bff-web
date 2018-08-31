@@ -5,6 +5,7 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
+import Linkify from 'react-linkify'
 import { pick } from 'lodash'
 import classnames from 'classnames'
 import { IData as IRestaurant } from '../../modules/restaurant'
@@ -28,7 +29,7 @@ const nameMap: { [key: string]: string } = {
   credit_card: 'クレジットカード',
   non_smoking: '禁煙',
   lunch: 'ランチ',
-  children: '子供歓迎',
+  children: 'お子様',
 }
 
 export const ResturantInfo = withStyle(s)((props: IProps): JSX.Element => {
@@ -44,8 +45,8 @@ export const ResturantInfo = withStyle(s)((props: IProps): JSX.Element => {
                   {nameMap[key]}
                 </TableCell>
                 <TableCell>{typeof val === 'object' && val !== null
-                  ? Object.values(val).map((v: string) => v).join(', ')
-                  : val
+                  ? Object.values(val).map((v: string) => <div key={v}><Linkify>{v}</Linkify></div>)
+                  : <Linkify>{val}</Linkify>
                 }</TableCell>
               </TableRow>
             )
