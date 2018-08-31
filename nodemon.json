@@ -1,5 +1,5 @@
 {
-  "watch": ["dist-dev"],
+  "watch": ["./dist-dev/dev-server.js"],
   "verbose": true,
   "ext": "js",
   "exec": "node dist-dev/dev-server",

@@ -9,7 +9,7 @@ import { toNumber, isNaN as _isNaN } from 'lodash'
 import { RestaurantsPage } from '../../pages/RestaurantsPage'
 import { Restaurants, IQuery as IRestaurantsQuery } from '../../api/restaurants'
 import { IState } from '../../reducer'
-import { fetchRestaurants, fetchRestaurantsReceive, Payload as FetchRestaurantsPayload, IData as IRestaurants } from '../../modules/restaurants'
+import { fetchRestaurants, fetchRestaurantsReceive, resetRestaurants, Payload as FetchRestaurantsPayload, IData as IRestaurants } from '../../modules/restaurants'
 import { getGeolocationEnd, ICoords, PositionError } from '../../modules/geolocation'
 import { IRouteContext } from '../'
 
@@ -18,6 +18,7 @@ export interface IProps extends RouteComponentProps<void> {
   restaurants: IRestaurants;
   coords: ICoords;
   location: Location;
+  loaded: boolean;
   fetchRestaurants: Function;
   resetRestaurants: Function;
   positionError?: PositionError;
@@ -49,18 +50,26 @@ export class RestaurantsRoute extends React.Component<IProps> {
     return actions
   }
 
-  componentDidUpdate(prevProps: IProps): void {
-    console.log('this.props.location', this.props.location)
-    console.log('prevProps.location', prevProps.location)
-    if (this.props.location.search !== prevProps.location.search) {
+  componentDidMount(): void {
+    if (this.props.loaded === false) {
       const parsedQuery: ParsedUrlQuery = parseQueryString(this.props.location.search.slice(1))
-      console.log('parsedQuery', parsedQuery)
       if (RestaurantsRoute.hasLocation(parsedQuery)) {
         this.props.fetchRestaurants(parsedQuery)
-      } else {
-        this.props.resetRestaurants()
       }
     }
+  }
+
+  componentDidUpdate(prevProps: IProps): void {
+    if (this.props.location.search !== prevProps.location.search) {
+      const parsedQuery: ParsedUrlQuery = parseQueryString(this.props.location.search.slice(1))
+      if (RestaurantsRoute.hasLocation(parsedQuery)) {
+        this.props.fetchRestaurants(parsedQuery)
+      }
+    }
+  }
+
+  componentWillUnmount(): void {
+    this.props.resetRestaurants()
   }
 
   render(): JSX.Element {
@@ -71,11 +80,12 @@ export class RestaurantsRoute extends React.Component<IProps> {
 export default connect(
   (state: IState) => ({
     restaurants: state.restaurants.data as IRestaurants,
+    loaded: state.restaurants.loaded,
     coords: state.geolocation.coords as ICoords,
     positionError: state.geolocation.error as PositionError,
   }),
   (dispatch: Dispatch) => bindActionCreators({
     fetchRestaurants,
-    resetRestaurants: () => fetchRestaurantsReceive([]),
+    resetRestaurants,
   }, dispatch)
 )(RestaurantsRoute)

@@ -7,6 +7,7 @@ export const renderHeader = (props: any): string => (
     <meta charset="utf-8">
     <title>${props.title}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>html,body,#root,#app{height:100%}body{margin:0}</style>
     ${props.assets && props.assets.css ? (
       props.assets.css.map((asset: string) => (
         `<link rel="stylesheet" href="/${asset}" />`

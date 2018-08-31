@@ -7,7 +7,7 @@ import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import { pick } from 'lodash'
 import classnames from 'classnames'
-import { IEntity as IRestaurant } from '../../modules/restaurants'
+import { IData as IRestaurant } from '../../modules/restaurant'
 import * as s from './index.css'
 
 export interface IProps {

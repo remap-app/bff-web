@@ -10,7 +10,7 @@ import CardContent from '@material-ui/core/CardContent'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import Typography from '@material-ui/core/Typography'
 import { MediaPlaceholder } from '../MediaPlaceholder'
-import { IEntity as IRestaurant } from '../../modules/restaurants'
+import { IData as IRestaurant } from '../../modules/restaurant'
 import * as s from './index.css'
 
 export interface IProps {

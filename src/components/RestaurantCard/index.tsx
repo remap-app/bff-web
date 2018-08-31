@@ -8,7 +8,7 @@ import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import { MediaPlaceholder } from '../MediaPlaceholder'
 import { SingleLineMediaList } from '../SingleLineMediaList'
-import { IEntity as IRestaurant } from '../../modules/restaurants'
+import { IData as IRestaurant } from '../../modules/restaurant'
 import { ResturantInfo } from '../RestaurantInfo'
 import * as s from './index.css'
 

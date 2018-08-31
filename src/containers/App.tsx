@@ -6,11 +6,12 @@ import { Location } from 'history'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { Routes } from '../routes/Routes'
+import { GlobalHeader } from '../components/GLobalHeader'
 import { BottomNav } from '../components/BottomNav'
+import { MainLayout } from '../components/MainLayout'
 import { IState } from '../reducer'
 import { ICoords, getGeolocationBegin } from '../modules/geolocation'
 import * as s from './App.css'
-import { GlobalHeader } from '../components/GLobalHeader';
 
 export interface IProps {
   location: Location;
@@ -33,7 +34,9 @@ class _App extends React.Component<IProps> {
     return (
       <div id='app'>
         <GlobalHeader onLocationDetect={this.props.onLocationDetect} />
-        <Routes />
+        <MainLayout>
+          <Routes />
+        </MainLayout>
         <BottomNav value={val} location={this.props.location} coords={this.props.coords} />
       </div>
     )
