@@ -10,6 +10,7 @@
 .link {
   text-decoration: none;
   display: block;
+  height: 100%;
 }
 
 .media {
