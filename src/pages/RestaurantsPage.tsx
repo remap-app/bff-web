@@ -1,6 +1,7 @@
 import * as React from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Peper from '@material-ui/core/Paper'
+import Typography from '@material-ui/core/Typography'
 import { GridVerticalCenter } from '../components/GridVerticalCenter'
 import { IData as IRestaurants } from '../modules/restaurants'
 import { ICoords, PositionError } from '../modules/geolocation'
@@ -17,7 +18,9 @@ export const RestaurantsPage = (props: IProps): JSX.Element => {
   if (props.positionError) {
     return (
       <GridVerticalCenter>
-        <Peper>{props.positionError.toString()}</Peper>
+        <Peper square>
+          <Typography>{props.positionError.toString()}</Typography>
+        </Peper>
       </GridVerticalCenter>
     )
   }
