@@ -21,10 +21,10 @@ export const BottomNav = withStyle(s)((props: IProps): JSX.Element => {
     ? `?latitude=${props.coords.latitude}&longitude=${props.coords.longitude}`
     : ''
 
-  const restaurantsHref = { ...props.location, pathname: '/restaurants' }
+  const restaurantsDescriptor = { ...props.location, pathname: '/restaurants' }
 
   if (search) {
-    restaurantsHref.search = search
+    restaurantsDescriptor.search = search
   }
 
   return (
@@ -33,7 +33,7 @@ export const BottomNav = withStyle(s)((props: IProps): JSX.Element => {
         label='Restaurants'
         icon={<RestaurantIcon />}
         component={Link}
-        to={restaurantsHref}
+        to={restaurantsDescriptor}
       />
       <BottomNavigationAction
         label='Stocks'

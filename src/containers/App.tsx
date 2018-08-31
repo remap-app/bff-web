@@ -53,10 +53,7 @@ class _App extends React.Component<IProps> {
 export const App = compose(
   withRouter,
   connect(
-    (state: IState) => {
-      const { coords } = state.geolocation
-      return { coords }
-    },
+    (state: IState) => ({ coords: state.geolocation.coords }),
     (dispatch: Dispatch) => bindActionCreators({
       onLocationDetect: () => getGeolocationBegin(),
     }, dispatch)

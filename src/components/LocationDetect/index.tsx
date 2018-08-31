@@ -12,6 +12,8 @@ export interface IProps {
 
 export const LocationDetect = withStyle(s)((props: IProps):JSX.Element => {
   return (
-    <Button onClick={props.onClick} className={classnames(s.root, props.className)}><LocationOn /></Button>
+    <Button variant='fab' color='secondary' onClick={props.onClick} className={classnames(s.root, props.className)}>
+      <LocationOn color='primary' />
+    </Button>
   )
 })

@@ -8,7 +8,9 @@ export const mapCoordsToUrlMiddleware = (store: Store) => (next: Dispatch) => (a
   }
 
   const { latitude, longitude } = action.payload
-  return store.dispatch(
+  store.dispatch(
     replace({ search: `?latitude=${latitude}&longitude=${longitude}` })
   )
+
+  return next(action)
 }

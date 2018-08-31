@@ -10,7 +10,7 @@ export interface IProps {
 
 export const GlobalHeader = withStyle(s)((props: IProps): JSX.Element => {
   return (
-    <AppBar color='primary' position='fixed'>
+    <AppBar color='primary' className={s.root}>
       <LocationDetect onClick={props.onLocationDetect} />
     </AppBar>
   )

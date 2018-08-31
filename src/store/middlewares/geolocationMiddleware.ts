@@ -28,6 +28,7 @@ export const geolocationMiddleware = (store: Store) => (next: Dispatch) => (acti
         heading: coords.heading as number | undefined,
         speed: coords.speed as number | undefined,
       }
+
       return store.dispatch(getGeolocationEnd(payload))
     },
     error => {
@@ -39,4 +40,6 @@ export const geolocationMiddleware = (store: Store) => (next: Dispatch) => (acti
     },
     options
   )
+
+  return next(action)
 }
