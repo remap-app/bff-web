@@ -69,7 +69,9 @@ export class RestaurantsRoute extends React.Component<IProps> {
   }
 
   componentWillUnmount(): void {
-    this.props.resetRestaurants()
+    if (this.props.loaded === false) {
+      this.props.resetRestaurants()
+    }
   }
 
   render(): JSX.Element {
