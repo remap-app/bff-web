@@ -1,12 +1,12 @@
 import { Store, Dispatch } from 'redux'
-import { getGeolocationEnd, PositionError, ActionTypes, IPositionOptions, ICoords } from '../../modules/geolocation'
+import { getGeolocationBegin, getGeolocationEnd, PositionError, IPositionOptions, ICoords } from '../../modules/geolocation'
 
 const NOT_SUPPORTED = 0
 
 const navigator = typeof window !== 'undefined' ? window.navigator : null
 
 export const geolocationMiddleware = (store: Store) => (next: Dispatch) => (action: any) => {
-  if (action.type !== ActionTypes.GET_GEOLOCATION_BEGIN) {
+  if (action.type !== getGeolocationBegin.toString()) {
     return next(action)
   }
 
@@ -14,15 +14,16 @@ export const geolocationMiddleware = (store: Store) => (next: Dispatch) => (acti
     return store.dispatch(getGeolocationEnd(new PositionError(NOT_SUPPORTED, 'Not supported')))
   }
 
-  const options: IPositionOptions = action.payload.meta.options
+  const meta = action.meta || {}
+  const options: IPositionOptions = meta.options || { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
 
   navigator.geolocation.getCurrentPosition(
     ({ coords }) => {
       const payload: ICoords = {
-        latitude: coords.latitude as number,
-        longitude: coords.longitude as number,
+        latitude: coords.latitude,
+        longitude: coords.longitude,
         altitude: coords.altitude as number | undefined,
-        accuracy: coords.accuracy as number,
+        accuracy: coords.accuracy,
         altitudeAccuracy: coords.altitudeAccuracy as number | undefined,
         heading: coords.heading as number | undefined,
         speed: coords.speed as number | undefined,
