@@ -27,26 +27,21 @@ export interface IProps extends RouteComponentProps<void> {
 export class RestaurantsRoute extends React.Component<IProps> {
   private static hasLocation = (query?: ParsedUrlQuery) => !!query && !!query.latitude && !!query.longitude
 
-  private static fetchRestaurants = async (query: ParsedUrlQuery): Promise<FetchRestaurantsPayload> => {
-    const promise = RestaurantsRoute.hasLocation(query)
-      ? Restaurants.getList(query as IRestaurantsQuery)
-      : Promise.resolve([])
-    return await promise.catch((error: Error) => error)
-  }
-
   public static getInitialAction = async ({ query }: IRouteContext) => {
-    const restaurants: FetchRestaurantsPayload = await RestaurantsRoute.fetchRestaurants(query)
+    if (!RestaurantsRoute.hasLocation(query)) {
+      return null
+    }
+    const restaurants: FetchRestaurantsPayload = await Restaurants.getList(query as IRestaurantsQuery).catch((error: Error) => error)
     const actions: Action[] = [fetchRestaurantsReceive(restaurants)]
 
-    if (RestaurantsRoute.hasLocation(query)) {
-      const latitude: number = toNumber(query.latitude)
-      const longitude: number = toNumber(query.longitude)
-      if (!_isNaN(latitude) && !_isNaN(longitude)) {
-        actions.push(
-          getGeolocationEnd({ latitude, longitude, accuracy: 0 })
-        )
-      }
+    const latitude: number = toNumber(query.latitude)
+    const longitude: number = toNumber(query.longitude)
+    if (!_isNaN(latitude) && !_isNaN(longitude)) {
+      actions.push(
+        getGeolocationEnd({ latitude, longitude, accuracy: 0 })
+      )
     }
+
     return actions
   }
 
@@ -75,7 +70,14 @@ export class RestaurantsRoute extends React.Component<IProps> {
   }
 
   render(): JSX.Element {
-    return <RestaurantsPage restaurants={this.props.restaurants} coords={this.props.coords} positionError={this.props.positionError} />
+    return (
+      <RestaurantsPage
+        restaurants={this.props.restaurants}
+        coords={this.props.coords}
+        positionError={this.props.positionError}
+        restaurantsLoaded={this.props.loaded}
+      />
+    )
   }
 }
 

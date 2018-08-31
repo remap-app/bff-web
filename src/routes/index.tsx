@@ -74,13 +74,14 @@ router.get('*', async (req: Request, res: Response) => {
         originalUrl: req.originalUrl,
         state: store.getState(),
       }
-      const actionOrAction = await component.getInitialAction(context)
-      const finalAction: Action[] = Array.isArray(actionOrAction)
-        ? actionOrAction
-        : [actionOrAction]
+
+      const actionOrActions = await component.getInitialAction(context)
+      const finalAction: Action[] = Array.isArray(actionOrActions)
+        ? actionOrActions
+        : [actionOrActions]
 
       await Promise.all(
-        finalAction.map(a => store.dispatch(a))
+        finalAction.filter(a => !!a).map(a => store.dispatch(a))
       )
     }
   }
