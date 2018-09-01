@@ -27,6 +27,8 @@ const config: IWebpackConfigurationDev = {
       'process.env.NODE_ENV': JSON.stringify('development'),
       'process.env.ASSET_PATH': JSON.stringify('/'),
       'process.env.RESTAURANTS_ENDPOINT': JSON.stringify(process.env.RESTAURANTS_ENDPOINT),
+      'process.env.FIREBASE_API_KEY': JSON.stringify(process.env.FIREBASE_API_KEY),
+      'process.env.FIREBASE_AUTH_DOMAIN': JSON.stringify(process.env.FIREBASE_AUTH_DOMAIN),
     }),
     new webpack.HotModuleReplacementPlugin(),
   ],

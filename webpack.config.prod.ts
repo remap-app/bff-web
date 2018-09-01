@@ -23,6 +23,8 @@ export default (): IWebpackConfiguration[] => {
         new webpack.DefinePlugin({
           'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
           'process.env.RESTAURANTS_ENDPOINT': JSON.stringify(RESTAURANTS_ENDPOINT),
+          'process.env.FIREBASE_API_KEY': JSON.stringify(process.env.FIREBASE_API_KEY),
+          'process.env.FIREBASE_AUTH_DOMAIN': JSON.stringify(process.env.FIREBASE_AUTH_DOMAIN),
         }),
       ],
       target: 'node',
@@ -44,6 +46,8 @@ export default (): IWebpackConfiguration[] => {
           'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
           'process.env.ASSET_PATH': JSON.stringify(ASSET_PATH),
           'process.env.RESTAURANTS_ENDPOINT': JSON.stringify(RESTAURANTS_ENDPOINT),
+          'process.env.FIREBASE_API_KEY': JSON.stringify(process.env.FIREBASE_API_KEY),
+          'process.env.FIREBASE_AUTH_DOMAIN': JSON.stringify(process.env.FIREBASE_AUTH_DOMAIN),
         }),
       ],
       entry: [

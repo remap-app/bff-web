@@ -4,6 +4,7 @@ import Notfound from './components/Notfound'
 import Restaurants from './components/Restaurants'
 import Restaurant from './components/Restaurant'
 import Stocks from './components/Stocks'
+import Signin from './components/Signin'
 
 export const routesConfig: RouteConfig[] = [
   {
@@ -24,6 +25,11 @@ export const routesConfig: RouteConfig[] = [
   {
     component: Stocks,
     path: '/stocks',
+    exact: true,
+  },
+  {
+    component: Signin,
+    path: '/signin',
     exact: true,
   },
   {
