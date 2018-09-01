@@ -1,4 +1,15 @@
 .root {
   padding: 5px 0;
-  /* align-items: center; */
+}
+
+.loc-container {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.toolbar {
+  width: 100%;
+  justify-content: flex-end;
 }

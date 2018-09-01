@@ -3,53 +3,89 @@ import { withStyle } from 'styledux'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
+import Button from '@material-ui/core/Button'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
 import MenuIcon from '@material-ui/icons/Menu'
 import { LocationDetect } from '../LocationDetect'
 import * as s from './index.css'
 
 export interface IProps {
-  onLocationDetect: () => void
+  onLocationDetect: () => void;
+  onSignout: () => void;
+  onSignin: () => void;
+  signedIn: Boolean;
 }
 
-export const GlobalHeader = withStyle(s)((props: IProps): JSX.Element => {
-  return (
-    <AppBar color='primary' className={s.root} position='static'>
-      <Toolbar>
-        <LocationDetect onClick={props.onLocationDetect} />
-        <IconButton color='inherit' aria-label='Menu'>
-          <MenuIcon />
-        </IconButton>
-      </Toolbar>
-    </AppBar>
-  )
-})
+interface IState {
+  anchorEl?: HTMLElement | null;
+}
 
-// {auth && (
-//   <div>
-//     <IconButton
-//       aria-owns={open ? 'menu-appbar' : null}
-//       aria-haspopup="true"
-//       onClick={this.handleMenu}
-//       color="inherit"
-//     >
-//       <AccountCircle />
-//     </IconButton>
-//     <Menu
-//       id="menu-appbar"
-//       anchorEl={anchorEl}
-//       anchorOrigin={{
-//         vertical: 'top',
-//         horizontal: 'right',
-//       }}
-//       transformOrigin={{
-//         vertical: 'top',
-//         horizontal: 'right',
-//       }}
-//       open={open}
-//       onClose={this.handleClose}
-//     >
-//       <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-//       <MenuItem onClick={this.handleClose}>My account</MenuItem>
-//     </Menu>
-//   </div>
-// )}
+export const GlobalHeader = withStyle(s)(
+  class extends React.Component<IProps, IState> {
+    state = { anchorEl: null }
+
+    handleSignout = () => {
+      this.closeMenu()
+      this.props.onSignout()
+    }
+
+    handleSignin = () => {
+      this.props.onSignin()
+    }
+
+    handleClose = () => {
+      this.closeMenu()
+    }
+    handleMenu = (event: any) => { // TODO
+      this.setState({ anchorEl: event.currentTarget })
+    }
+
+    closeMenu() {
+      this.setState({ anchorEl: null })
+    }
+
+    render(): JSX.Element {
+      const opened: boolean = Boolean(this.state.anchorEl)
+
+      return (
+        <AppBar color='primary' className={s.root} position='static'>
+          <Toolbar className={s.toolbar}>
+            {/* <IconButton color='inherit' aria-label='Menu'>
+              <MenuIcon />
+            </IconButton> */}
+            <div className={s.locContainer}><LocationDetect onClick={this.props.onLocationDetect} /></div>
+            {this.props.signedIn ? (
+              <div>
+                <IconButton
+                  color='inherit'
+                  aria-owns={opened ? 'menu-appbar' : undefined}
+                  aria-label='Menu'
+                  onClick={this.handleMenu}
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Menu
+                  id='menu-appbar'
+                  anchorEl={this.state.anchorEl}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={opened}
+                  onClose={this.handleClose}
+                >
+                  <MenuItem onClick={this.handleSignout}>Sign out</MenuItem>
+                </Menu>
+              </div>
+            ) : <Button onClick={this.handleSignin} color='inherit'>Sign in</Button>}
+          </Toolbar>
+        </AppBar>
+      )
+    }
+  }
+)
