@@ -5,15 +5,17 @@ import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import Button from '@material-ui/core/Button'
 import Menu from '@material-ui/core/Menu'
+import Avatar from '@material-ui/core/Avatar'
 import MenuItem from '@material-ui/core/MenuItem'
-import MenuIcon from '@material-ui/icons/Menu'
 import { LocationDetect } from '../LocationDetect'
+import { IData as IUser } from '../../modules/auth'
 import * as s from './index.css'
 
 export interface IProps {
   onLocationDetect: () => void;
   onSignout: () => void;
   onSignin: () => void;
+  user: IUser;
   signedIn: Boolean;
 }
 
@@ -63,7 +65,9 @@ export const GlobalHeader = withStyle(s)(
                   aria-label='Menu'
                   onClick={this.handleMenu}
                 >
-                  <MenuIcon />
+                  <Avatar alt={this.props.user.displayName} src={this.props.user.photoURL}>
+                    {this.props.user.displayName ? this.props.user.displayName.slice(0, 1) : null}
+                  </Avatar>
                 </IconButton>
                 <Menu
                   id='menu-appbar'

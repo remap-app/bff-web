@@ -4,6 +4,7 @@ declare module 'react-jss/lib/jss'
 declare module 'react-jss/lib/JssProvider'
 declare module 'react-linkify'
 declare module 'react-firebaseui/StyledFirebaseAuth'
+declare module 'universal-cookie' // TODO:
 
 declare module 'micro-errors' {
   interface IData {

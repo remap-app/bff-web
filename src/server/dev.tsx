@@ -2,6 +2,7 @@ import 'cross-fetch/polyfill'
 import { resolve } from 'path'
 import * as express from 'express'
 import 'express-async-errors'
+import _cookiesMiddleware = require('universal-cookie-express')
 import * as webpack from 'webpack'
 import * as webpackDevMiddleware from 'webpack-dev-middleware'
 import * as webpackHotMiddleware from 'webpack-hot-middleware'
@@ -12,6 +13,7 @@ import { errorHandler } from './errorHandler'
 
 const server = express()
 const { PORT = 3000 } = process.env
+const cookiesMiddleware = _cookiesMiddleware.default || _cookiesMiddleware // FIXME
 
 // dev
 const compiler = webpack(webpackConfig)
@@ -22,6 +24,7 @@ server.use(webpackDevMiddleware(compiler, {
 server.use(webpackHotMiddleware(compiler))
 
 server.use(express.static(resolve(process.cwd(), 'dev')))
+server.use(cookiesMiddleware())
 server.use('/api', apiRoutes) // should be above top more than '/'
 server.use('/', routes)
 server.use(errorHandler)

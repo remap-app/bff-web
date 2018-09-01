@@ -29,10 +29,10 @@ export const geolocationMiddleware = (store: Store) => (next: Dispatch) => (acti
         speed: coords.speed as number | undefined,
       }
 
-      return store.dispatch(getGeolocationEnd(payload))
+      store.dispatch(getGeolocationEnd(payload))
     },
     error => {
-      return store.dispatch(
+      store.dispatch(
         getGeolocationEnd(
           new PositionError(error.code, error.message)
         )

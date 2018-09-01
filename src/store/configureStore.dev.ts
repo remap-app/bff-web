@@ -4,22 +4,29 @@ import logger from 'redux-logger'
 import createThunkMiddleware from './middlewares/createThunkMiddleware'
 import rootReducer, { IState } from '../reducer'
 import history from '../history'
+import auth from '../auth'
+import createAuthStateChangeHandlerEnhancer from './enhancers/createAuthStateChangeHandlerEnhancer'
 import { geolocationMiddleware } from './middlewares/geolocationMiddleware'
 import { mapCoordsToUrlMiddleware } from './middlewares/mapCoordsToUrlMiddleware'
+import { handleAuthStateChangedHandlerMiddleware } from './middlewares/handleAuthStateChangedHandlerMiddleware'
 
 const configureStore = (initialState?: IState) => {
+  const enhancer: any = compose( // TODO
+    createAuthStateChangeHandlerEnhancer({ auth }),
+    applyMiddleware(
+      routerMiddleware(history),
+      createThunkMiddleware(),
+      geolocationMiddleware,
+      mapCoordsToUrlMiddleware,
+      handleAuthStateChangedHandlerMiddleware,
+      logger
+    )
+  )
+
   const store = createStore(
     rootReducer,
     initialState as IState,
-    compose(
-      applyMiddleware(
-        routerMiddleware(history),
-        createThunkMiddleware(),
-        geolocationMiddleware,
-        mapCoordsToUrlMiddleware,
-        logger
-      )
-    )
+    enhancer
   )
 
   if (module.hot) {

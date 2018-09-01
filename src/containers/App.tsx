@@ -2,6 +2,7 @@ import * as React from 'react'
 import { withStyle } from 'styledux'
 import { withRouter } from 'react-router'
 import { Dispatch, bindActionCreators } from 'redux'
+import { push } from 'connected-react-router'
 import { Location } from 'history'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
@@ -11,12 +12,17 @@ import { BottomNav } from '../components/BottomNav'
 import { MainLayout } from '../components/MainLayout'
 import { IState } from '../reducer'
 import { ICoords, getGeolocationBegin } from '../modules/geolocation'
+import { signout, IData as IUser } from '../modules/auth'
 import * as s from './App.css'
 
 export interface IProps {
   location: Location;
   coords: ICoords;
+  signedIn: boolean;
+  user: IUser;
   onLocationDetect: () => void;
+  onSignin: () => void;
+  onSignout: () => void;
 }
 
 class _App extends React.Component<IProps> {
@@ -33,7 +39,13 @@ class _App extends React.Component<IProps> {
 
     return (
       <div id='app'>
-        <GlobalHeader onLocationDetect={this.props.onLocationDetect} />
+        <GlobalHeader
+          onLocationDetect={this.props.onLocationDetect}
+          onSignin={this.props.onSignin}
+          onSignout={this.props.onSignout}
+          signedIn={this.props.signedIn}
+          user={this.props.user}
+        />
         <MainLayout>
           <Routes />
         </MainLayout>
@@ -53,9 +65,11 @@ class _App extends React.Component<IProps> {
 export const App = compose(
   withRouter,
   connect(
-    (state: IState) => ({ coords: state.geolocation.coords }),
+    (state: IState) => ({ coords: state.geolocation.coords, user: state.auth.data, signedIn: state.auth.signedIn }),
     (dispatch: Dispatch) => bindActionCreators({
       onLocationDetect: () => getGeolocationBegin(),
+      onSignin: () => push('/signin'),
+      onSignout: signout,
     }, dispatch)
   ),
   withStyle(s)
