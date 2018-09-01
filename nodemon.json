@@ -1,7 +1,7 @@
 {
-  "watch": ["./dist-dev/dev-server.js"],
+  "watch": ["src"],
   "verbose": true,
-  "ext": "js",
-  "exec": "node dist-dev/dev-server",
+  "ext": "ts,tsx,css",
+  "exec": "node dist-dev/server",
   "delay": "1000"
 }

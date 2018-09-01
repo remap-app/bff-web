@@ -9,7 +9,7 @@
     "build": "webpack --config webpack.config.prod.ts",
     "start": "node dist/server",
     "dev": "nodemon",
-    "watch:dev-server": "webpack --config webpack.config.dev.server.ts -w",
+    "watch": "webpack -w --config webpack.config.dev.server.ts",
     "lint": "eslint --ext=.ts,.tsx ."
   },
   "engines": {
