@@ -2,6 +2,7 @@ import 'cross-fetch/polyfill'
 import { resolve } from 'path'
 import * as express from 'express'
 import 'express-async-errors'
+import * as bodyParser from 'body-parser'
 import _cookiesMiddleware = require('universal-cookie-express')
 import routes from '../routes'
 import apiRoutes from '../routes/api'
@@ -12,6 +13,7 @@ const { PORT = 3000 } = process.env
 
 const cookiesMiddleware = _cookiesMiddleware.default || _cookiesMiddleware // FIXME
 
+server.use(bodyParser.json())
 server.use(express.static(resolve(process.cwd(), 'public')))
 server.use(cookiesMiddleware())
 server.use('/api', apiRoutes) // should be above top more than '/'

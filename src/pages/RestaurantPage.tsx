@@ -11,6 +11,7 @@ export interface IProps {
   restaurant: IRestaurant;
   error?: Error;
   onRetry: () => void;
+  onFav: (id: string) => void;
 }
 
 export const RestaurantPage = (props: IProps): JSX.Element => {
@@ -29,5 +30,5 @@ export const RestaurantPage = (props: IProps): JSX.Element => {
     return <GridVerticalCenter><CircularProgress /></GridVerticalCenter>
   }
 
-  return <RestaurantCard restaurant={props.restaurant} />
+  return <RestaurantCard restaurant={props.restaurant} onFav={props.onFav} />
 }

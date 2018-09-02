@@ -46,7 +46,7 @@ export const fetchStocks = (query: IStocksQuery) => async (dispatch: Dispatch, _
     return
   }
 
-  const id: string = stocks.map((s: IStock) => s.id).join(',')
+  const id: string = stocks.map((s: IStock) => s.restaurant_id).join(',')
   const payload = await (id ? api.Restaurants.getList({ id }).catch((error: Error) => error) : Promise.resolve([]))
   dispatch(fetchStocksReceive(payload))
 }
@@ -61,7 +61,7 @@ export const createStock = (restaurantId: string) => async (dispatch: Dispatch, 
     dispatch(createStockReceive(maybeError))
     return
   }
-  const restaurant: IRestaurant = await Restaurants.getById(restaurantId)
+  const restaurant: IRestaurant | Error = await api.Restaurants.getById(restaurantId).catch((error: Error) => error)
   dispatch(createStockReceive(restaurant))
 }
 
@@ -109,7 +109,7 @@ export const reducer = reducerWithInitialState(initialState)
       ? {
         ...state,
         isRequesting: false,
-        loaded: true,
+        loaded: false,
         error: action.payload,
       }
       : {

@@ -31,7 +31,7 @@ export class StocksRoute extends React.Component<IProps> {
       return fetchStocksReceive(error as Error)
     }
 
-    const id: string = stocks.map((s: IStock) => s.id).join(',')
+    const id: string = stocks.map((s: IStock) => s.restaurant_id).join(',')
     const restaurants: IRestaurant[] | Error = await Restaurants.getList({ id }).catch((error: Error) => error)
 
     return fetchStocksReceive(restaurants)

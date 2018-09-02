@@ -2,6 +2,7 @@ import 'cross-fetch/polyfill'
 import { resolve } from 'path'
 import * as express from 'express'
 import 'express-async-errors'
+import * as bodyParser from 'body-parser'
 import _cookiesMiddleware = require('universal-cookie-express')
 import * as webpack from 'webpack'
 import * as webpackDevMiddleware from 'webpack-dev-middleware'
@@ -23,6 +24,7 @@ server.use(webpackDevMiddleware(compiler, {
 }))
 server.use(webpackHotMiddleware(compiler))
 
+server.use(bodyParser.json())
 server.use(express.static(resolve(process.cwd(), 'dev')))
 server.use(cookiesMiddleware())
 server.use('/api', apiRoutes) // should be above top more than '/'

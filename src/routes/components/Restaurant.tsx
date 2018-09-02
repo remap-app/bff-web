@@ -7,6 +7,7 @@ import { RestaurantPage } from '../../pages/RestaurantPage'
 import { Restaurants } from '../../api/restaurants'
 import { IState } from '../../reducer'
 import { fetchRestaurant, resetRestaurant, fetchRestaurantReceive, Payload as FetchRestaurantPayload, IData as IRestaurant } from '../../modules/restaurant'
+import { createStock } from '../../modules/stocks'
 import { IRouteContext } from '../'
 
 export interface IProps extends RouteComponentProps<{ id: string }> {
@@ -17,6 +18,7 @@ export interface IProps extends RouteComponentProps<{ id: string }> {
   fetchRestaurant: Function;
   resetRestaurant: Function;
   restRestaurant: Function;
+  createStock: (id: string) => void;
 }
 
 export class RestaurantRoute extends React.Component<IProps> {
@@ -47,7 +49,7 @@ export class RestaurantRoute extends React.Component<IProps> {
   }
 
   render(): JSX.Element {
-    return <RestaurantPage restaurant={this.props.restaurant} error={this.props.error} onRetry={this.handleRetry} />
+    return <RestaurantPage restaurant={this.props.restaurant} error={this.props.error} onRetry={this.handleRetry} onFav={this.props.createStock}/>
   }
 
   handleRetry = (): void => {
@@ -64,5 +66,6 @@ export default connect(
   (dispatch: Dispatch) => bindActionCreators({
     fetchRestaurant,
     resetRestaurant,
+    createStock,
   }, dispatch)
 )(RestaurantRoute)

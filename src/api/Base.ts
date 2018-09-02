@@ -2,7 +2,7 @@ import { throwInternalServerError, createProblemError } from './helpers'
 
 export class Base {
   private static async request(method: string, url: string, headers?: any, body?: any): Promise<any> {
-    const res = await fetch(url, { method, headers, body }).catch((e: Error) => { throw e })
+    const res = await fetch(url, { method, headers, body, mode: 'cors' }).catch((e: Error) => { throw e })
 
     const resBody = await res.json().catch(throwInternalServerError)
 

@@ -15,8 +15,8 @@ export interface IStock {
 }
 
 export class Stocks extends Base {
-  private static headers(idToken?: string) {
-    return new Headers({ Authorization: `Bearer ${idToken}`})
+  private static baseHeaders(idToken?: string) {
+    return { Authorization: `Bearer ${idToken}` }
   }
 
   private static get rootEndpoint() {
@@ -24,29 +24,33 @@ export class Stocks extends Base {
   }
 
   public static async create(restaurantId: string, token: string): Promise<any> {
+    console.log('restaurantId', restaurantId)
     return await this.post(`${this.rootEndpoint}`, {
-      headers: this.headers(token),
-      body: JSON.stringify(restaurantId),
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        ...this.baseHeaders(token),
+      }),
+      body: JSON.stringify({ restaurant_id: restaurantId }),
     })
   }
 
   public static async getList(query: IQuery, token: string): Promise<IStock[]> {
     const queryString: string = stringifyParsedQuery(query)
     const param: string = queryString ? `?${queryString}` : ''
-    return await this.get(`${this.rootEndpoint}/${param}`, {
-      headers: this.headers(token),
+    return await this.get(`${this.rootEndpoint}${param}`, {
+      headers: new Headers(this.baseHeaders(token)),
     })
   }
 
   public static async getById(id: string, token: string): Promise<IStock> {
     return await this.get(`${this.rootEndpoint}/${id}`, {
-      headers: this.headers(token),
+      headers: new Headers(this.baseHeaders(token)),
     })
   }
 
   public static async deleteById(id: string, token: string): Promise<any> {
     return await this.delete(`${this.rootEndpoint}/${id}`, {
-      headers: this.headers(token),
+      headers: new Headers(this.baseHeaders(token)),
     })
   }
 }

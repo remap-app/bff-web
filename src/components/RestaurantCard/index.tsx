@@ -6,6 +6,8 @@ import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
+import IconButton from '@material-ui/core/IconButton'
+import FavoriteIcon from '@material-ui/icons/Favorite'
 import { MediaPlaceholder } from '../MediaPlaceholder'
 import { SingleLineMediaList } from '../SingleLineMediaList'
 import { IData as IRestaurant } from '../../modules/restaurant'
@@ -16,6 +18,7 @@ export interface IProps {
   restaurant: IRestaurant;
   className?: string | undefined;
   component?: string;
+  onFav: (id: string) => void;
 }
 
 export const RestaurantCard = withStyle(s)((props: IProps): JSX.Element => {
@@ -24,6 +27,13 @@ export const RestaurantCard = withStyle(s)((props: IProps): JSX.Element => {
       <CardHeader
         avatar={<Avatar>{props.restaurant.name.slice(0, 1)}</Avatar>}
         title={props.restaurant.name}
+        action={
+          <IconButton onClick={() => {
+            props.onFav(props.restaurant.id)
+          }}>
+            <FavoriteIcon />
+          </IconButton>
+        }
         subheader={props.restaurant.catchphrase || '-'}
       />
       {props.restaurant.images.length === 0

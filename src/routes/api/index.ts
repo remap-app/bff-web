@@ -7,10 +7,10 @@ const router = Router()
 router.get('/v1/restaurants', getRestaurants)
 router.get('/v1/restaurants/:id', getRestaurantById)
 
-router.post('/vi/stocks', createStock)
+router.post('/v1/stocks', createStock)
 router.get('/v1/stocks', getStocks)
 router.get('/v1/stocks/:id', getStockById)
-router.delete('vi/stocks/:id', deleteStockById)
+router.delete('v1/stocks/:id', deleteStockById)
 
 router.get('/*', (_, res: Response) => {
   res.status(404).json({

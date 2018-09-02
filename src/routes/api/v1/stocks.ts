@@ -4,8 +4,13 @@ import { Restaurants, IRestaurant } from '../../../api/restaurants'
 
 export const createStock = async (req: Request, res: Response) => {
   const _req: any = req // TODO:
-  const result = await Stocks.create(req.body.restaurant_id, _req.universalCookies.get('__t'))
-  res.json(result)
+  console.log('req.body', req.body)
+  const maybeError = await Stocks.create(req.body.restaurant_id, _req.universalCookies.get('__t')).catch((e: Error) => e)
+  console.log('maybeError', maybeError)
+  if (maybeError instanceof Error) {
+    throw maybeError
+  }
+  res.status(201)
 }
 
 export const getStocks = async (req: Request, res: Response) => {
