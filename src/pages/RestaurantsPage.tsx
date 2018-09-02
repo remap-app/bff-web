@@ -4,12 +4,11 @@ import Peper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import { GridVerticalCenter } from '../components/GridVerticalCenter'
 import { IData as IRestaurants } from '../modules/restaurants'
-import { ICoords, PositionError } from '../modules/geolocation'
+import { PositionError } from '../modules/geolocation'
 import { RestaurantList } from '../components/RestaurantList'
 
 export interface IProps {
   restaurants: IRestaurants;
-  coords: ICoords;
   positionError?: PositionError;
   restaurantsLoaded: boolean;
 }
@@ -29,5 +28,5 @@ export const RestaurantsPage = (props: IProps): JSX.Element => {
     return <GridVerticalCenter><CircularProgress /></GridVerticalCenter>
   }
 
-  return <RestaurantList restaurants={props.restaurants} coords={props.coords} />
+  return <RestaurantList restaurants={props.restaurants} />
 }

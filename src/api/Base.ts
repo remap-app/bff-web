@@ -1,16 +1,28 @@
 import { throwInternalServerError, createProblemError } from './helpers'
 
 export class Base {
-  static async get(url: string): Promise<any> {
-    const res = await fetch(url).catch((e: Error) => { throw e })
+  private static async request(method: string, url: string, headers?: any, body?: any): Promise<any> {
+    const res = await fetch(url, { method, headers, body }).catch((e: Error) => { throw e })
 
-    const body = await res.json().catch(throwInternalServerError)
+    const resBody = await res.json().catch(throwInternalServerError)
 
     if (res.ok) {
-      return body
+      return resBody
     }
 
-    const { status, title, type, ...rest } = body
+    const { status, title, type, ...rest } = resBody
     throw createProblemError(status, title, undefined, type, rest)
+  }
+
+  protected static async get(url: string, opts: { headers?: any } = {}): Promise<any> {
+    return await this.request('GET', url, opts.headers)
+  }
+
+  protected static async post(url: string, opts: { headers?: any, body?: any } = {}): Promise<any> {
+    return await this.request('POST', url, opts.headers, opts.body)
+  }
+
+  protected static async delete(url: string, opts: { headers?: any } = {}): Promise<any> {
+    return await this.request('DELETE', url, opts.headers)
   }
 }

@@ -4,12 +4,10 @@ import GridList from '@material-ui/core/GridList'
 import classnames from 'classnames'
 import { RestaurantListItem } from '../RestaurantListItem'
 import { IData as IRestaurants } from '../../modules/restaurants'
-import { ICoords } from '../../modules/geolocation'
 import * as s from './index.css'
 
 export interface IProps {
   restaurants: IRestaurants;
-  coords?: ICoords;
   className?: string | undefined;
 }
 

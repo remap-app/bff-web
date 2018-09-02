@@ -1,3 +1,4 @@
 import { Restaurants } from './restaurants'
+import { Stocks } from './stocks'
 
-export default { Restaurants }
+export default { Restaurants, Stocks }

@@ -10,13 +10,12 @@ import { RestaurantsPage } from '../../pages/RestaurantsPage'
 import { Restaurants, IQuery as IRestaurantsQuery } from '../../api/restaurants'
 import { IState } from '../../reducer'
 import { fetchRestaurants, fetchRestaurantsReceive, resetRestaurants, Payload as FetchRestaurantsPayload, IData as IRestaurants } from '../../modules/restaurants'
-import { getGeolocationEnd, ICoords, PositionError } from '../../modules/geolocation'
+import { getGeolocationEnd, PositionError } from '../../modules/geolocation'
 import { IRouteContext } from '../'
 
 export interface IProps extends RouteComponentProps<void> {
   route?: RouteConfig;
   restaurants: IRestaurants;
-  coords: ICoords;
   location: Location;
   loaded: boolean;
   fetchRestaurants: Function;
@@ -73,7 +72,6 @@ export class RestaurantsRoute extends React.Component<IProps> {
     return (
       <RestaurantsPage
         restaurants={this.props.restaurants}
-        coords={this.props.coords}
         positionError={this.props.positionError}
         restaurantsLoaded={this.props.loaded}
       />
@@ -85,7 +83,6 @@ export default connect(
   (state: IState) => ({
     restaurants: state.restaurants.data as IRestaurants,
     loaded: state.restaurants.loaded,
-    coords: state.geolocation.coords as ICoords,
     positionError: state.geolocation.error as PositionError,
   }),
   (dispatch: Dispatch) => bindActionCreators({

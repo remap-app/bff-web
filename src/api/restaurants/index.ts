@@ -3,11 +3,12 @@ import { Base } from '../Base'
 import { isServer } from '../../helpers'
 
 export interface IQuery extends ParsedUrlQuery {
-  latitude: string;
-  longitude: string;
+  latitude?: string;
+  longitude?: string;
   range?: string;
   page?: string;
   per_page?: string;
+  id?: string;
 }
 
 export interface IRestaurant {
